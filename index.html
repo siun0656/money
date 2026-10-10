@@ -1,0 +1,2071 @@
+--
+
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>슬기로운 용돈 생활 : 3주 프로젝트</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            jua: ['Jua', 'sans-serif'],
+            gaegu: ['Gaegu', 'cursive'],
+            sans: ['Noto Sans KR', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Noto Sans KR', sans-serif; background-color: #F8FAFC; user-select: none; }
+    .font-jua { font-family: 'Jua', sans-serif; }
+    .font-gaegu { font-family: 'Gaegu', cursive; }
+    .card-shadow { box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.04); }
+    .coin-bounce { animation: bounce 1.8s infinite; }
+    @keyframes popIn { 0% { transform: scale(0.92); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .animate-pop { animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .ledger-table th, .ledger-table td { padding: 8px 10px; font-size: 13px; text-align: center; }
+  </style>
+</head>
+<body class="text-gray-800 min-h-screen flex flex-col">
+
+  <!-- ==================== 헤더 ==================== -->
+  <header class="bg-white border-b-4 border-emerald-400 sticky top-0 z-50 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('tab2')">
+        <div class="w-11 h-11 bg-emerald-500 rounded-2xl flex items-center justify-center text-white text-2xl shadow-md rotate-[-3deg]">
+          <i class="fa-solid fa-piggy-bank"></i>
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-jua text-gray-800 leading-tight">슬기로운 용돈 생활 : 3주 프로젝트</h1>
+          <p class="text-xs text-emerald-600 font-bold">초등 5학년 실과 · 합리적 소비와 생활 자원 관리</p>
+        </div>
+      </div>
+
+      <nav class="flex flex-wrap gap-1.5 md:gap-2">
+        <button onclick="switchTab('tab1')" id="nav-tab1" class="tab-btn px-3 py-2 rounded-xl text-sm font-jua bg-gray-100 text-gray-600 hover:bg-emerald-100 flex items-center gap-1.5">
+          <i class="fa-solid fa-book-open"></i> <span>1. 소비 6단계 탐구</span>
+        </button>
+        <button onclick="switchTab('tab2')" id="nav-tab2" class="tab-btn px-3 py-2 rounded-xl text-sm font-jua bg-emerald-500 text-white shadow-sm flex items-center gap-1.5">
+          <i class="fa-solid fa-gamepad"></i> <span>2. 3주 용돈 실천 게임</span>
+        </button>
+        <button onclick="switchTab('tab3')" id="nav-tab3" class="tab-btn px-3 py-2 rounded-xl text-sm font-jua bg-gray-100 text-gray-600 hover:bg-emerald-100 flex items-center gap-1.5">
+          <i class="fa-solid fa-triangle-exclamation"></i> <span>3. 5대 낭비 소비 탈출</span>
+        </button>
+        <button onclick="switchTab('tab4')" id="nav-tab4" class="tab-btn px-3 py-2 rounded-xl text-sm font-jua bg-gray-100 text-gray-600 hover:bg-emerald-100 flex items-center gap-1.5">
+          <i class="fa-solid fa-receipt"></i> <span>4. 전체 가계부 & 핵심노트</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== 메인 콘텐츠 ==================== -->
+  <main class="flex-grow max-w-6xl mx-auto w-full p-4 md:p-6">
+
+    <!-- #################### [탭 1] 현명한 소비 습관 6단계 탐구 #################### -->
+    <section id="tab1" class="tab-content hidden">
+      <div class="bg-emerald-50/70 rounded-3xl p-5 md:p-8 border-2 border-emerald-200 card-shadow">
+        <div class="text-center max-w-2xl mx-auto mb-6">
+          <span class="bg-emerald-500 text-white font-jua text-xs px-3 py-1 rounded-full uppercase">교과서 82쪽 탐구</span>
+          <h2 class="text-2xl md:text-3xl font-jua text-gray-800 mt-2">🛍️ 현명한 소비 습관 6단계 가이드</h2>
+          <p class="text-sm text-gray-600 mt-1">물건을 살 때 꼭 거쳐야 할 6단계를 차근차근 확인해 보세요!</p>
+        </div>
+
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-2 max-w-4xl mx-auto mb-6">
+          <button onclick="selectStepGuide(0)" id="sg-btn-0" class="sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-emerald-600 text-white shadow-sm text-center">1. 목적 고려</button>
+          <button onclick="selectStepGuide(1)" id="sg-btn-1" class="sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-white border border-emerald-200 text-gray-600 hover:bg-emerald-100 text-center">2. 계획 세우기</button>
+          <button onclick="selectStepGuide(2)" id="sg-btn-2" class="sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-white border border-emerald-200 text-gray-600 hover:bg-emerald-100 text-center">3. 정보 수집</button>
+          <button onclick="selectStepGuide(3)" id="sg-btn-3" class="sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-white border border-emerald-200 text-gray-600 hover:bg-emerald-100 text-center">4. 선택·구매</button>
+          <button onclick="selectStepGuide(4)" id="sg-btn-4" class="sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-white border border-emerald-200 text-gray-600 hover:bg-emerald-100 text-center">5. 사용하기</button>
+          <button onclick="selectStepGuide(5)" id="sg-btn-5" class="sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-white border border-emerald-200 text-gray-600 hover:bg-emerald-100 text-center">6. 되돌아보기</button>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-200 shadow-sm max-w-3xl mx-auto">
+          <div class="flex items-center justify-between border-b pb-3 mb-4">
+            <div>
+              <span id="sg-step-badge" class="bg-emerald-100 text-emerald-800 font-jua text-xs px-2.5 py-1 rounded-md">STEP 1</span>
+              <h3 id="sg-step-title" class="text-xl md:text-2xl font-jua text-gray-800 mt-1">목적을 고려하여 결정하기</h3>
+            </div>
+            <span class="text-3xl text-emerald-500" id="sg-step-icon"><i class="fa-solid fa-lightbulb"></i></span>
+          </div>
+
+          <div id="sg-screen" class="min-h-[220px] bg-emerald-50/40 rounded-2xl p-6 border border-emerald-100 flex flex-col items-center justify-center text-center"></div>
+
+          <div class="mt-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs md:text-sm text-amber-900 leading-relaxed font-sans">
+            <strong class="font-jua text-amber-800 text-sm block mb-1">💡 교과서 핵심 체크 포인트:</strong>
+            <span id="sg-step-check"></span>
+          </div>
+
+          <div class="flex justify-between items-center mt-6">
+            <button onclick="changeStepGuide(-1)" id="btn-sg-prev" class="px-5 py-2.5 rounded-xl font-jua bg-gray-200 text-gray-400 cursor-not-allowed">
+              <i class="fa-solid fa-arrow-left mr-1"></i> 이전 단계
+            </button>
+            <button onclick="changeStepGuide(1)" id="btn-sg-next" class="px-6 py-2.5 rounded-xl font-jua bg-emerald-500 hover:bg-emerald-600 text-white shadow">
+              다음 단계 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- #################### [탭 2] 3주 용돈 실천 게임 #################### -->
+    <section id="tab2" class="tab-content block">
+      <div class="bg-sky-50/70 rounded-3xl p-4 md:p-7 border-2 border-sky-200 card-shadow">
+        
+        <!-- 대시보드 HUD + 철수 대출/상환 버튼 -->
+        <div class="bg-white rounded-2xl p-4 border border-sky-200 mb-6 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b pb-3 mb-3">
+            <div class="flex items-center space-x-3">
+              <span class="text-3xl coin-bounce">👛</span>
+              <div>
+                <span class="text-xs text-gray-400 font-bold block">내 지갑 잔액</span>
+                <span id="hud-money" class="text-xl md:text-2xl font-jua text-emerald-600">11,000원</span>
+              </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <span id="hud-week-pill" class="px-3 py-1 rounded-full bg-indigo-600 text-white font-jua text-xs md:text-sm">1주차</span>
+              <span id="hud-day-pill" class="px-3 py-1 rounded-full bg-sky-500 text-white font-jua text-xs md:text-sm">월요일</span>
+            </div>
+
+            <div class="flex items-center space-x-2 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100">
+              <span class="text-lg">🏦</span>
+              <div>
+                <span class="text-[10px] text-indigo-500 font-bold block">누적 저축 통장</span>
+                <span id="hud-bank" class="text-sm md:text-base font-jua text-indigo-700">0원</span>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-2 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200">
+              <span class="text-lg">🤝</span>
+              <div>
+                <span class="text-[10px] text-rose-500 font-bold block">철수에게 빌린 빚</span>
+                <span id="hud-debt" class="text-sm md:text-base font-jua text-rose-600">0원 / 최대 10,000원</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 철수에게 빌리기 / 갚기 컨트롤 바 -->
+          <div class="bg-amber-50/80 rounded-xl p-3 border border-amber-200 mb-3 flex flex-wrap items-center justify-between gap-2">
+            <div class="text-xs text-amber-900 font-sans">
+              <i class="fa-solid fa-triangle-exclamation text-amber-600 mr-1"></i>
+              <strong>친구 찬스 (철수):</strong> 돈이 모자라면 철수에게 최대 10,000원까지 빌릴 수 있지만, <strong>갚지 못하면 신뢰를 잃고 최악의 결말</strong>을 맞이합니다!
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="borrowFromFriend()" id="btn-borrow" class="px-3 py-1.5 rounded-lg font-jua text-xs bg-rose-500 hover:bg-rose-600 text-white shadow-sm flex items-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-hand-holding-dollar"></i> 철수에게 5,000원 빌린다
+              </button>
+              <button onclick="repayToFriend()" id="btn-repay" class="px-3 py-1.5 rounded-lg font-jua text-xs bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm flex items-center gap-1 transition disabled:opacity-40 disabled:cursor-not-allowed">
+                <i class="fa-solid fa-circle-check"></i> 철수에게 5,000원 갚는다
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div class="bg-emerald-50 p-2 rounded-xl border border-emerald-100">
+              <div class="flex justify-between text-xs font-jua mb-1 text-emerald-900">
+                <span>🧠 합리적 소비 지수</span> <span id="gauge-txt-logic">50점</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                <div id="gauge-bar-logic" class="bg-emerald-500 h-full transition-all duration-300" style="width: 50%;"></div>
+              </div>
+            </div>
+            <div class="bg-amber-50 p-2 rounded-xl border border-amber-100">
+              <div class="flex justify-between text-xs font-jua mb-1 text-amber-900">
+                <span>😊 생활 만족도</span> <span id="gauge-txt-happy">60점</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                <div id="gauge-bar-happy" class="bg-amber-500 h-full transition-all duration-300" style="width: 60%;"></div>
+              </div>
+            </div>
+            <div class="bg-purple-50 p-2 rounded-xl border border-purple-100 col-span-2 md:col-span-1">
+              <div class="flex justify-between text-xs font-jua mb-1 text-purple-900">
+                <span>🤝 친구들의 신뢰도</span> <span id="gauge-txt-trust">100점</span>
+              </div>
+              <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                <div id="gauge-bar-trust" class="bg-purple-500 h-full transition-all duration-300" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- [VIEW 0: 주차별 시작 - 저축액만 설정] -->
+        <div id="view-week-plan" class="game-view block max-w-xl mx-auto">
+          <div class="text-center mb-5">
+            <span id="plan-week-badge" class="bg-indigo-500 text-white font-jua text-xs px-3 py-1 rounded-full uppercase">1주차 시작</span>
+            <h2 id="plan-week-title" class="text-2xl md:text-3xl font-jua text-gray-800 mt-2">🐷 이번 주 저축액을 정해보세요!</h2>
+            <p id="plan-week-desc" class="text-sm text-gray-600 mt-1 font-sans leading-relaxed">
+              지난주 남은 돈 1,000원 + 이번 주 용돈 10,000원 = <strong>총 11,000원</strong>이 있습니다.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-6 md:p-7 border-2 border-indigo-100 shadow-sm space-y-5">
+            <div class="p-3.5 bg-indigo-50/70 rounded-2xl border border-indigo-200 text-xs text-indigo-900 font-sans leading-relaxed">
+              <i class="fa-solid fa-lightbulb text-indigo-600 mr-1"></i> 돈을 쓰고 남은 돈을 모으기보다는, <strong>쓸 돈을 정하기 전에 저축할 돈을 먼저 떼어놓는 '선저축'</strong>이 훨씬 현명합니다!
+            </div>
+
+            <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200">
+              <label class="block font-jua text-gray-800 text-base mb-1">🏦 이번 주 통장에 바로 저축할 금액:</label>
+              <p class="text-xs text-gray-500 mb-3">내 용돈 중 미래를 위해 먼저 저금할 금액을 골라주세요.</p>
+              
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="save-option-btns">
+                <button type="button" onclick="selectSaveAmount(1000)" class="save-opt-btn p-2.5 rounded-xl border-2 font-jua text-sm text-center bg-white border-gray-200 hover:border-indigo-400">1,000원</button>
+                <button type="button" onclick="selectSaveAmount(2000)" class="save-opt-btn p-2.5 rounded-xl border-2 font-jua text-sm text-center bg-white border-gray-200 hover:border-indigo-400">2,000원</button>
+                <button type="button" onclick="selectSaveAmount(3000)" class="save-opt-btn p-2.5 rounded-xl border-2 font-jua text-sm text-center bg-indigo-50 border-indigo-500 text-indigo-700 font-bold">3,000원 (권장)</button>
+                <button type="button" onclick="selectSaveAmount(5000)" class="save-opt-btn p-2.5 rounded-xl border-2 font-jua text-sm text-center bg-white border-gray-200 hover:border-indigo-400">5,000원 (알뜰)</button>
+              </div>
+            </div>
+
+            <div class="p-4 bg-sky-50 rounded-2xl border border-sky-200 flex justify-between items-center text-sm font-jua">
+              <span>저축 후 이번 주 지갑 잔액:</span>
+              <span id="plan-after-cash" class="text-lg text-emerald-600 font-bold">8,000원</span>
+            </div>
+
+            <button onclick="confirmWeekSavings()" class="w-full py-3.5 rounded-2xl font-jua text-lg bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg transition">
+              저축하고 이번 주 출발! <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- [VIEW 1: 일상 소비 선택 스테이지] -->
+        <div id="view-day-stage" class="game-view hidden max-w-2xl mx-auto">
+          <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-sky-200 card-shadow text-center relative">
+            <div class="flex items-center justify-between mb-2">
+              <span id="event-badge" class="bg-indigo-100 text-indigo-700 font-jua text-xs px-3 py-1 rounded-full uppercase">1주차 : 월요일</span>
+              <span id="event-step-pill" class="text-xs font-bold text-gray-400">1 / 5 이벤트</span>
+            </div>
+            <div id="event-icon" class="text-5xl my-3">🏪</div>
+            <h3 id="event-title" class="text-xl md:text-2xl font-jua text-gray-800 mb-2"></h3>
+            <p id="event-desc" class="text-sm text-gray-600 mb-6 leading-relaxed max-w-lg mx-auto font-sans"></p>
+
+            <div id="event-choices" class="space-y-3 text-left"></div>
+          </div>
+        </div>
+
+        <!-- [VIEW 2: 선택 피드백] -->
+        <div id="view-choice-fb" class="game-view hidden max-w-2xl mx-auto">
+          <div class="bg-white rounded-3xl p-6 md:p-8 border-3 border-amber-300 card-shadow text-center animate-pop">
+            <div id="cfb-icon" class="text-5xl mb-3">🧐</div>
+            <h3 id="cfb-title" class="text-xl md:text-2xl font-jua text-gray-800 mb-2"></h3>
+            <p id="cfb-desc" class="text-sm md:text-base text-gray-700 mb-4 leading-relaxed font-sans"></p>
+
+            <div id="cfb-effects" class="inline-flex flex-wrap gap-2 justify-center mb-6 text-xs font-bold font-jua"></div>
+
+            <div class="p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-left mb-6">
+              <span class="text-xs text-emerald-800 font-bold block mb-1">📖 교과서 연결 해설:</span>
+              <p id="cfb-theory" class="text-xs text-emerald-700 leading-relaxed font-sans"></p>
+            </div>
+
+            <button onclick="nextEventOrReview()" id="btn-next-event" class="px-8 py-3 rounded-2xl font-jua text-lg bg-sky-500 hover:bg-sky-600 text-white shadow-lg transition">
+              다음으로 넘어가기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- [VIEW 3: 주간 결산 피드백 (1, 2주차)] -->
+        <div id="view-weekly-review" class="game-view hidden max-w-2xl mx-auto">
+          <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-indigo-200 card-shadow space-y-5 animate-pop">
+            <div class="text-center border-b pb-4">
+              <span id="review-week-badge" class="bg-indigo-100 text-indigo-700 font-jua text-xs px-3 py-1 rounded-full uppercase">1주차 마감</span>
+              <h3 id="review-week-heading" class="text-2xl font-jua text-gray-800 mt-2">📊 1주차 용돈 생활 되돌아보기</h3>
+              <p class="text-xs md:text-sm text-gray-500 mt-1">한 주 동안의 씀씀이를 반성하고 다음 주를 준비합니다.</p>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="p-3 bg-gray-50 rounded-2xl border">
+                <span class="text-xs text-gray-500 font-medium block">이번 주 지출</span>
+                <span id="review-spent" class="text-base md:text-lg font-jua text-rose-600">0원</span>
+              </div>
+              <div class="p-3 bg-indigo-50 rounded-2xl border border-indigo-100">
+                <span class="text-xs text-indigo-600 font-medium block">통장 저축</span>
+                <span id="review-saved" class="text-base md:text-lg font-jua text-indigo-700">0원</span>
+              </div>
+              <div class="p-3 bg-rose-50 rounded-2xl border border-rose-100">
+                <span class="text-xs text-rose-600 font-medium block">남은 철수 빚</span>
+                <span id="review-debt" class="text-base md:text-lg font-jua text-rose-700">0원</span>
+              </div>
+            </div>
+
+            <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200">
+              <h4 class="font-jua text-amber-900 text-base mb-1.5"><i class="fa-solid fa-clipboard-check mr-1"></i> 주간 평가 분석</h4>
+              <p id="review-feedback-text" class="text-xs md:text-sm text-amber-800 leading-relaxed font-sans"></p>
+            </div>
+
+            <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-emerald-900 text-xs md:text-sm font-sans flex items-center justify-between">
+              <div>
+                <strong>🎁 다음 주 새 용돈 입금 예정:</strong>
+                <span class="block text-emerald-700 text-xs mt-0.5">+10,000원이 다음 주 지갑에 추가됩니다!</span>
+              </div>
+              <span class="text-xl font-jua text-emerald-600">+10,000원</span>
+            </div>
+
+            <button onclick="startNextWeek()" class="w-full py-3.5 rounded-2xl font-jua text-lg bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg transition">
+              새 용돈 받고 다음 주 저축 설정하기! <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- [VIEW 4: 3주 완주 소설 결말 모드] -->
+        <div id="view-final-story" class="game-view hidden max-w-3xl mx-auto">
+          <div class="text-center mb-5">
+            <span class="bg-amber-100 text-amber-800 font-jua text-xs px-3 py-1 rounded-full uppercase">3주간의 이야기</span>
+            <h2 class="text-2xl md:text-3xl font-jua text-gray-800 mt-2">📖 나의 3주 용돈 생존기</h2>
+            <p class="text-sm text-gray-600 mt-1">내가 내린 15번의 모든 선택들이 한 편의 소설 결말로 생생하게 펼쳐집니다.</p>
+          </div>
+
+          <div class="bg-[#FFFDF7] rounded-3xl p-6 md:p-8 border-2 border-amber-200 card-shadow relative">
+            <div class="flex items-center justify-between border-b pb-3 mb-4">
+              <div class="flex items-center space-x-2">
+                <span class="text-3xl" id="story-mood-icon">📜</span>
+                <div>
+                  <span class="text-[11px] text-amber-600 font-bold block">소설 결말 테마</span>
+                  <h3 id="story-title" class="text-xl md:text-2xl font-jua text-amber-950"></h3>
+                </div>
+              </div>
+              <span id="story-ending-tag" class="px-3 py-1 rounded-full text-xs font-jua bg-amber-200 text-amber-900">결말 스토리</span>
+            </div>
+
+            <div id="story-paragraphs" class="space-y-4 text-sm md:text-base text-gray-800 leading-relaxed font-sans"></div>
+
+            <div class="mt-8 pt-5 border-t border-amber-200 text-center">
+              <button onclick="goToFinalAnalysisReport()" class="px-8 py-3.5 rounded-2xl font-jua text-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg transition animate-pulse">
+                📊 나의 3주 소비 분석 리포트 확인하기 <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- [VIEW 5: 3주 최종 소비 분석 리포트] -->
+        <div id="view-final-analysis" class="game-view hidden max-w-3xl mx-auto">
+          <div class="text-center mb-6">
+            <span class="bg-purple-100 text-purple-700 font-jua text-xs px-3 py-1 rounded-full uppercase">3주 종합 성적표</span>
+            <h2 class="text-2xl md:text-3xl font-jua text-gray-800 mt-2">🏆 나의 3주 소비 분석 리포트</h2>
+            <p class="text-sm text-gray-600 mt-1">3주 동안의 수입, 지출, 저축, 빚 청산 여부를 교과서 기준으로 정밀 진단했습니다.</p>
+          </div>
+
+          <div class="bg-[#FFFDF9] rounded-3xl p-6 md:p-8 border-2 border-amber-200 card-shadow space-y-6">
+            <div class="flex flex-wrap justify-between items-center border-b pb-4 gap-2">
+              <div>
+                <span class="text-xs text-amber-600 font-bold block">나의 최종 소비 타이틀</span>
+                <h3 id="final-title-text" class="text-2xl font-jua text-amber-900 mt-0.5"></h3>
+              </div>
+              <div class="text-right">
+                <span class="text-xs text-gray-500 block">최종 순자산 (지갑+저축-빚)</span>
+                <span id="final-total-assets" class="text-2xl font-jua text-emerald-600"></span>
+              </div>
+            </div>
+
+            <!-- 총계 박스 -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
+              <div class="p-3 bg-emerald-50 rounded-2xl border border-emerald-100">
+                <span class="text-[11px] text-emerald-700 font-medium block">총 수입 (용돈+수익)</span>
+                <span id="final-stat-income" class="text-base font-jua text-emerald-800">31,000원</span>
+              </div>
+              <div class="p-3 bg-rose-50 rounded-2xl border border-rose-100">
+                <span class="text-[11px] text-rose-700 font-medium block">총 지출 (구입/나눔)</span>
+                <span id="final-stat-spend" class="text-base font-jua text-rose-800">0원</span>
+              </div>
+              <div class="p-3 bg-indigo-50 rounded-2xl border border-indigo-100">
+                <span class="text-[11px] text-indigo-700 font-medium block">총 저축 누적액</span>
+                <span id="final-stat-saved" class="text-base font-jua text-indigo-800">0원</span>
+              </div>
+              <div class="p-3 bg-red-50 rounded-2xl border border-red-200">
+                <span class="text-[11px] text-red-700 font-medium block">못 갚은 철수 빚</span>
+                <span id="final-stat-debt" class="text-base font-jua text-red-800">0원</span>
+              </div>
+            </div>
+
+            <!-- 5대 낭비 극복 진단표 ('오류 발생' -> '실패') -->
+            <div class="p-4 bg-white rounded-2xl border border-gray-200">
+              <h4 class="font-jua text-gray-800 text-base mb-2">🔍 5대 낭비 소비 극복 현황</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-sans" id="final-error-checks"></div>
+            </div>
+
+            <!-- 선생님 맞춤 다각도 조언 (총망라) -->
+            <div class="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 space-y-2">
+              <h4 class="font-jua text-emerald-900 text-base flex items-center gap-1.5">
+                <i class="fa-solid fa-chalkboard-user"></i> 선생님의 3주 종합 맞춤 피드백 & 생활 코칭
+              </h4>
+              <div id="final-teacher-advice" class="text-xs md:text-sm text-emerald-800 leading-relaxed font-sans space-y-2"></div>
+            </div>
+          </div>
+
+          <div class="text-center mt-6 flex flex-wrap justify-center gap-3">
+            <button onclick="switchTab('tab4')" class="px-6 py-3 rounded-2xl font-jua text-base bg-indigo-600 hover:bg-indigo-700 text-white shadow">
+              <i class="fa-solid fa-receipt mr-1"></i> 3주 전체 가계부 보러가기
+            </button>
+            <button onclick="restartFullProject()" class="px-6 py-3 rounded-2xl font-jua text-base bg-emerald-500 hover:bg-emerald-600 text-white shadow">
+              <i class="fa-solid fa-rotate-left mr-1"></i> 3주 프로젝트 처음부터 다시 하기
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- #################### [탭 3] 5대 낭비 소비 탈출 작전 #################### -->
+    <section id="tab3" class="tab-content hidden">
+      <div class="bg-rose-50/70 rounded-3xl p-5 md:p-8 border-2 border-rose-200 card-shadow">
+        <div class="text-center max-w-2xl mx-auto mb-6">
+          <span class="bg-rose-500 text-white font-jua text-xs px-3 py-1 rounded-full uppercase">비합리적 소비 처방전</span>
+          <h2 class="text-2xl md:text-3xl font-jua text-gray-800 mt-2">🚫 우리가 자주 빠지는 5대 낭비 소비</h2>
+          <p class="text-sm text-gray-600 mt-1">초등학생들이 가장 많이 겪는 5가지 소비 오류의 원인과 해결책을 확인하세요!</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-2 mb-6" id="waste-tab-btns"></div>
+
+        <div class="bg-white rounded-3xl p-6 md:p-8 border-2 border-rose-200 shadow-sm max-w-3xl mx-auto">
+          <div class="flex items-center space-x-3 border-b pb-3 mb-4">
+            <div id="waste-icon-box" class="w-12 h-12 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-2xl">
+              <i class="fa-solid fa-pen-ruler"></i>
+            </div>
+            <div>
+              <span id="waste-category-badge" class="text-xs font-bold text-rose-600 uppercase">오류 소비 유형 1</span>
+              <h3 id="waste-title" class="text-xl md:text-2xl font-jua text-gray-800 mt-0.5"></h3>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200">
+              <h4 class="font-jua text-rose-900 text-base mb-1">🤦‍♂️ 어떤 상황인가요?</h4>
+              <p id="waste-story" class="text-sm text-gray-700 leading-relaxed font-sans"></p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-amber-50 border border-amber-200">
+              <h4 class="font-jua text-amber-900 text-base mb-1">⚠️ 왜 잘못된 소비일까요?</h4>
+              <p id="waste-reason" class="text-sm text-gray-700 leading-relaxed font-sans"></p>
+            </div>
+
+            <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+              <h4 class="font-jua text-emerald-900 text-base mb-1">💡 교과서 82쪽 현명한 해결 비법!</h4>
+              <p id="waste-solution" class="text-sm text-emerald-800 leading-relaxed font-sans"></p>
+            </div>
+          </div>
+
+          <!-- 미니 퀴즈 -->
+          <div class="mt-6 pt-5 border-t border-gray-100">
+            <h4 class="font-jua text-gray-800 text-base mb-2">🎯 처방 확인 퀴즈: 이럴 땐 어떻게 해야 할까요?</h4>
+            <div id="waste-quiz-box" class="space-y-2"></div>
+            <div id="waste-quiz-msg" class="mt-2 text-xs font-bold min-h-[20px]"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- #################### [탭 4] 3주 전체 가계부 & 핵심노트 #################### -->
+    <section id="tab4" class="tab-content hidden">
+      <div class="bg-indigo-50/70 rounded-3xl p-5 md:p-8 border-2 border-indigo-200 card-shadow space-y-8">
+        
+        <!-- 실시간 3주 전체 가계부 -->
+        <div class="bg-white rounded-3xl p-5 md:p-7 border-2 border-indigo-200 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between border-b pb-3 mb-4 gap-2">
+            <div>
+              <span class="bg-indigo-100 text-indigo-800 font-jua text-xs px-2.5 py-1 rounded-md">교과서 83쪽 양식</span>
+              <h3 class="text-xl md:text-2xl font-jua text-gray-800 mt-1">📖 3주 전체 누적 가계부 (용돈 기입장)</h3>
+            </div>
+            <div class="flex gap-1.5 font-jua text-xs">
+              <button onclick="filterLedger('all')" id="flt-all" class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white">전체</button>
+              <button onclick="filterLedger('1주차')" id="flt-1" class="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600">1주차</button>
+              <button onclick="filterLedger('2주차')" id="flt-2" class="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600">2주차</button>
+              <button onclick="filterLedger('3주차')" id="flt-3" class="px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600">3주차</button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full ledger-table border-collapse border border-gray-200 rounded-xl overflow-hidden">
+              <thead>
+                <tr class="bg-indigo-100/70 text-indigo-900 font-jua text-sm">
+                  <th class="border border-gray-200">주차 / 날짜</th>
+                  <th class="border border-gray-200">내용</th>
+                  <th class="border border-gray-200 text-emerald-700">수입 (+)</th>
+                  <th class="border border-gray-200 text-rose-700" colspan="3">지출 (-) [구입 / 저축 / 기부]</th>
+                  <th class="border border-gray-200 text-indigo-700">남은 돈</th>
+                </tr>
+                <tr class="bg-indigo-50 text-[11px] font-bold text-gray-600">
+                  <th class="border border-gray-200"></th>
+                  <th class="border border-gray-200"></th>
+                  <th class="border border-gray-200"></th>
+                  <th class="border border-gray-200">구입</th>
+                  <th class="border border-gray-200">저축</th>
+                  <th class="border border-gray-200">기부</th>
+                  <th class="border border-gray-200"></th>
+                </tr>
+              </thead>
+              <tbody id="full-ledger-tbody" class="text-gray-700 divide-y divide-gray-200 bg-white font-sans text-xs"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 핵심노트 3대 영역 -->
+        <div class="bg-white rounded-3xl p-5 md:p-8 border-2 border-indigo-100 shadow-sm space-y-6">
+          <div class="border-b pb-3">
+            <span class="bg-indigo-500 text-white font-jua text-xs px-3 py-1 rounded-full uppercase">핵심 정리</span>
+            <h3 class="text-2xl font-jua text-gray-800 mt-2 flex items-center gap-2">
+              <i class="fa-solid fa-graduation-cap text-indigo-500"></i> 5학년 실과 용돈 관리 핵심 쏙쏙 노트
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-700 font-sans">
+            <!-- 1. 용돈의 뜻 -->
+            <div class="p-5 rounded-2xl bg-sky-50/70 border-2 border-sky-200 flex flex-col justify-between">
+              <div>
+                <div class="w-10 h-10 rounded-xl bg-sky-200 text-sky-700 flex items-center justify-center text-xl mb-3">
+                  <i class="fa-solid fa-coins"></i>
+                </div>
+                <h4 class="font-jua text-sky-950 text-lg mb-2">1. 용돈의 뜻</h4>
+                <p class="text-xs md:text-sm leading-relaxed text-sky-900 mb-2">
+                  주로 부모님이나 어른들에게 받아 학용품, 간식, 교통수단 등 내가 필요한 생활 자원으로 교환할 수 있는 돈입니다.
+                </p>
+                <div class="p-2.5 rounded-xl bg-white border border-sky-100 text-xs text-sky-800 font-medium">
+                  ⭐ <strong>핵심 성질:</strong> 가지고 다니기 편하지만, 무한하지 않고 <strong>한정된 자원</strong>입니다.
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. 용돈 관리 방법 -->
+            <div class="p-5 rounded-2xl bg-emerald-50/70 border-2 border-emerald-200 flex flex-col justify-between">
+              <div>
+                <div class="w-10 h-10 rounded-xl bg-emerald-200 text-emerald-700 flex items-center justify-center text-xl mb-3">
+                  <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <h4 class="font-jua text-emerald-950 text-lg mb-2">2. 용돈 관리 방법</h4>
+                <ul class="text-xs md:text-sm space-y-1.5 text-emerald-900 mb-2">
+                  <li>• <strong>선저축 실천:</strong> 쓸 돈을 정하기 전에 저축할 돈을 먼저 떼어놓기</li>
+                  <li>• <strong>우선순위 예산:</strong> 꼭 필요한 일부터 순서를 정해 계획 세우기</li>
+                  <li>• <strong>용돈 기입장 쓰기:</strong> 수입과 지출(구입/저축/기부)을 매일 기록하기</li>
+                  <li>• <strong>되돌아보기:</strong> 낭비한 지출을 반성하고 다음 계획에 반영하기</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- 3. 좋지 않은 소비 -->
+            <div class="p-5 rounded-2xl bg-rose-50/70 border-2 border-rose-200 flex flex-col justify-between">
+              <div>
+                <div class="w-10 h-10 rounded-xl bg-rose-200 text-rose-700 flex items-center justify-center text-xl mb-3">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <h4 class="font-jua text-rose-950 text-lg mb-2">3. 좋지 않은 소비</h4>
+                <ul class="text-xs space-y-1.5 text-rose-900">
+                  <li>• <strong>목적 미고려:</strong> 멀쩡한 게 있는데 남 따라사기</li>
+                  <li>• <strong>무계획 탕진:</strong> 용돈 받자마자 초반에 다 쓰기</li>
+                  <li>• <strong>정보 수집 부족:</strong> 가짜 세일에 속아 비싸게 사기</li>
+                  <li>• <strong>목적 불일치:</strong> 실용성 무시하고 겉멋만 보고 사기</li>
+                  <li>• <strong>미사용 방치:</strong> 사놓고 방구석에 처박아두기</li>
+                  <li>• <strong>친구 돈 빌리기:</strong> 빚을 져서 신뢰를 잃는 행위</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 공통 알림 모달 -->
+  <div id="app-modal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 text-center card-shadow animate-pop border-2 border-emerald-300">
+      <div id="app-modal-icon" class="text-4xl mb-3 text-emerald-500"><i class="fa-solid fa-circle-check"></i></div>
+      <h4 id="app-modal-title" class="text-xl font-jua text-gray-800 mb-2">알림</h4>
+      <p id="app-modal-msg" class="text-sm text-gray-600 mb-5 whitespace-pre-line leading-relaxed font-sans"></p>
+      <button onclick="closeAppModal()" class="w-full py-2.5 rounded-xl font-jua bg-emerald-500 hover:bg-emerald-600 text-white shadow">확인</button>
+    </div>
+  </div>
+
+  <!-- ==================== 종합 스크립트 ==================== -->
+  <script>
+    /* 1. 사운드 효과음 */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playBeep(f, type='sine', dur=0.1, gain=0.15) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      try {
+        const osc = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        osc.type = type; osc.frequency.setValueAtTime(f, audioCtx.currentTime);
+        g.gain.setValueAtTime(gain, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+        osc.connect(g); g.connect(audioCtx.destination);
+        osc.start(); osc.stop(audioCtx.currentTime + dur);
+      } catch(e){}
+    }
+    const sndClick = () => playBeep(520, 'sine', 0.08, 0.1);
+    const sndCoin = () => { playBeep(987, 'sine', 0.08, 0.15); setTimeout(() => playBeep(1318, 'sine', 0.15, 0.2), 60); };
+    const sndCorrect = () => { playBeep(523, 'triangle', 0.1, 0.2); setTimeout(() => playBeep(659, 'triangle', 0.1, 0.2), 80); setTimeout(() => playBeep(784, 'triangle', 0.2, 0.2), 160); };
+    const sndWrong = () => { playBeep(220, 'sawtooth', 0.15, 0.2); setTimeout(() => playBeep(180, 'sawtooth', 0.2, 0.2), 100); };
+
+    /* 2. 탭 전환 */
+    function switchTab(tabId) {
+      sndClick();
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-emerald-500', 'bg-sky-500', 'bg-rose-500', 'bg-indigo-500', 'text-white');
+        btn.classList.add('bg-gray-100', 'text-gray-600');
+      });
+      const activeBtn = document.getElementById('nav-' + tabId);
+      if (tabId === 'tab1') activeBtn.classList.add('bg-emerald-500', 'text-white');
+      if (tabId === 'tab2') activeBtn.classList.add('bg-sky-500', 'text-white');
+      if (tabId === 'tab3') activeBtn.classList.add('bg-rose-500', 'text-white');
+      if (tabId === 'tab4') activeBtn.classList.add('bg-indigo-500', 'text-white');
+      activeBtn.classList.remove('bg-gray-100', 'text-gray-600');
+    }
+
+    /* 3. [탭 1] 6단계 가이드 데이터 */
+    const stepGuidesData = [
+      {
+        step: 1, title: '목적을 고려하여 결정하기', icon: 'fa-solid fa-lightbulb',
+        img: `<div class="bg-amber-100 p-5 rounded-2xl border-2 border-amber-300 max-w-sm"><span class="text-5xl">🎒✏️</span><div class="mt-2 text-xl font-jua text-amber-800">"작은 물건을 담을 보조 가방이 필요한데..."</div></div>`,
+        caption: '내가 사려는 물건이 정말 나에게 꼭 필요한지, 이미 집에 비슷한 물건이 있지는 않은지 먼저 곰곰이 생각해보는 단계입니다.',
+        check: '어떤 물건인가요? 어디에 쓸 건가요? 같은 종류의 물건을 이미 가지고 있지 않나요? 정말로 필요한가요?'
+      },
+      {
+        step: 2, title: '계획 세우기', icon: 'fa-solid fa-pen-to-square',
+        img: `<div class="bg-blue-100 p-5 rounded-2xl border-2 border-blue-300 max-w-sm"><span class="text-5xl">📝💰</span><div class="mt-2 text-xl font-jua text-blue-800">"준비물이 다 들어갈 크기로... 예산은 얼마지?"</div></div>`,
+        caption: '무작정 사러 나가지 않고, 얼마짜리를 살지(예산)와 언제 어디서 살지 미리 계획을 적어보는 단계입니다.',
+        check: '예산은 얼마인가요? 언제, 어디서 살 것인가요? 용돈의 몇 퍼센트를 쓸 것인가요?'
+      },
+      {
+        step: 3, title: '정보를 수집하고 정리하기', icon: 'fa-solid fa-magnifying-glass',
+        img: `<div class="bg-purple-100 p-5 rounded-2xl border-2 border-purple-300 max-w-sm"><span class="text-5xl">💻🏪</span><div class="mt-2 text-xl font-jua text-purple-800">"인터넷과 문구점 가격, 품질을 꼼꼼히 비교하자!"</div></div>`,
+        caption: '한 곳에서 덜컥 사지 않고, 상점과 인터넷의 가격, 품질, 써본 친구들의 후기 등을 비교하여 가장 믿을 수 있는 정보를 모읍니다.',
+        check: '상점에서 물건을 직접 살펴보기 / 인터넷에서 가격 조사 / 상품 정보 및 성분 확인 / 사용해 본 가족이나 친구 이야기 듣기'
+      },
+      {
+        step: 4, title: '선택하고 구매하기', icon: 'fa-solid fa-cart-shopping',
+        img: `<div class="bg-emerald-100 p-5 rounded-2xl border-2 border-emerald-300 max-w-sm"><span class="text-5xl">🧾💳</span><div class="mt-2 text-xl font-jua text-emerald-800">"정리한 정보로 결정! 영수증도 꼭 챙겨야지."</div></div>`,
+        caption: '모은 정보 중 가장 목적에 맞는 물건을 골라 값을 치르고, 교환이나 환불에 대비해 영수증을 받아 보관합니다.',
+        check: '정리한 정보를 바탕으로 최적의 물건 선택 / 정확한 돈 지불 / 영수증을 받아 잃어버리지 않게 보관하기'
+      },
+      {
+        step: 5, title: '사용하기', icon: 'fa-solid fa-heart',
+        img: `<div class="bg-rose-100 p-5 rounded-2xl border-2 border-rose-300 max-w-sm"><span class="text-5xl">🏫🎒</span><div class="mt-2 text-xl font-jua text-rose-800">"소중히 여기며 오래오래 깨끗하게 써야지!"</div></div>`,
+        caption: '산 목적에 맞게 소중히 사용하고, 작은 흠집이나 고장이 나면 버리지 않고 수리해서 아껴 쓰는 태도입니다.',
+        check: '원래 용도에 맞게 바르게 사용하기 / 작은 흠집이나 고장은 수리해서 오래 쓰기 / 방치하지 않기'
+      },
+      {
+        step: 6, title: '되돌아보기', icon: 'fa-solid fa-rotate-left',
+        img: `<div class="bg-indigo-100 p-5 rounded-2xl border-2 border-indigo-300 max-w-sm"><span class="text-5xl">📖🤔</span><div class="mt-2 text-xl font-jua text-indigo-800">"용돈 기입장에 쓰고, 이번 소비를 반성해보자!"</div></div>`,
+        caption: '용돈 기입장을 정리하며 이번 지출이 적절했는지, 낭비는 없었는지, 다음번엔 어떻게 개선할지 평가합니다.',
+        check: '구입 방법과 예산은 적절했나요? 반성할 점은 무엇인가요? 낭비 없이 잘 사용했나요? 환경에 미치는 영향은 어떠한가요?'
+      }
+    ];
+
+    let currentStepGuideIdx = 0;
+    function selectStepGuide(idx) {
+      sndClick();
+      currentStepGuideIdx = idx;
+      for (let i = 0; i < 6; i++) {
+        const btn = document.getElementById(`sg-btn-${i}`);
+        btn.className = (i === idx)
+          ? "sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-emerald-600 text-white shadow-sm text-center"
+          : "sg-btn py-2 px-1.5 rounded-xl font-jua text-xs md:text-sm bg-white border border-emerald-200 text-gray-600 hover:bg-emerald-100 text-center";
+      }
+      renderStepGuide();
+    }
+
+    function renderStepGuide() {
+      const d = stepGuidesData[currentStepGuideIdx];
+      document.getElementById('sg-step-badge').innerText = `STEP ${d.step}`;
+      document.getElementById('sg-step-title').innerText = d.title;
+      document.getElementById('sg-step-icon').innerHTML = `<i class="${d.icon}"></i>`;
+      document.getElementById('sg-step-check').innerText = d.check;
+      document.getElementById('sg-screen').innerHTML = `
+        <div class="my-2">${d.img}</div>
+        <p class="text-sm md:text-base text-gray-700 max-w-lg mt-2 font-medium leading-relaxed font-sans">${d.caption}</p>
+      `;
+      const prev = document.getElementById('btn-sg-prev');
+      const next = document.getElementById('btn-sg-next');
+      prev.disabled = (currentStepGuideIdx === 0);
+      prev.className = (currentStepGuideIdx === 0) ? "px-5 py-2.5 rounded-xl font-jua bg-gray-200 text-gray-400 cursor-not-allowed" : "px-5 py-2.5 rounded-xl font-jua bg-gray-200 hover:bg-gray-300 text-gray-700";
+      next.disabled = (currentStepGuideIdx === 5);
+      next.className = (currentStepGuideIdx === 5) ? "px-6 py-2.5 rounded-xl font-jua bg-gray-200 text-gray-400 cursor-not-allowed" : "px-6 py-2.5 rounded-xl font-jua bg-emerald-500 hover:bg-emerald-600 text-white shadow";
+    }
+
+    function changeStepGuide(delta) {
+      const n = currentStepGuideIdx + delta;
+      if (n >= 0 && n < 6) selectStepGuide(n);
+    }
+
+    /* 4. [탭 2] 게임 상태 엔진 */
+    let gameState = {
+      currentWeek: 1,
+      stageIndexInWeek: 0,
+      cash: 11000,
+      bank: 0,
+      debt: 0, // 철수 빚 (최대 10,000원)
+      borrowCount: 0,
+      repaidCount: 0,
+      tempSelectedSave: 3000,
+      logic: 50,
+      happy: 60,
+      trust: 100,
+      choiceStoryLogs: {},
+      errors: {
+        unplannedSpend: false,
+        noPurpose: false,
+        lackInfo: false,
+        unfitChoice: false,
+        unusedItem: false
+      },
+      weeklyStats: {
+        1: { spent: 0, saved: 0, errors: [] },
+        2: { spent: 0, saved: 0, errors: [] },
+        3: { spent: 0, saved: 0, errors: [] }
+      }
+    };
+
+    let fullLedger = [
+      { week: '1주차', date: '월요일', desc: '지난주 남은 돈', in: 1000, buy: 0, save: 0, give: 0, balance: 1000 },
+      { week: '1주차', date: '월요일', desc: '1주차 용돈 입금', in: 10000, buy: 0, save: 0, give: 0, balance: 11000 }
+    ];
+
+    /* 철수에게 5,000원 빌리기 (최대 10,000원 한도 제한) */
+    function borrowFromFriend() {
+      if (gameState.debt >= 10000) {
+        showModal("철수에게 빌릴 수 있는 최대 금액(10,000원)에 이미 도달했습니다!\n더 이상 친구에게 빌릴 수 없습니다.");
+        return;
+      }
+
+      sndCoin();
+      gameState.debt += 5000;
+      gameState.cash += 5000;
+      gameState.borrowCount++;
+      gameState.trust = Math.max(0, gameState.trust - 25);
+      gameState.logic = Math.max(0, gameState.logic - 15);
+
+      fullLedger.push({
+        week: `${gameState.currentWeek}주차`,
+        date: '친구 대출',
+        desc: '철수에게 5,000원 빌림 (빚 발생⚠️)',
+        in: 5000, buy: 0, save: 0, give: 0, balance: gameState.cash
+      });
+
+      updateHUD();
+      showModal(`💸 철수에게 5,000원을 빌렸습니다!\n\n현재 총 빚: [${gameState.debt.toLocaleString()}원 / 최대 10,000원]\n친구의 신뢰도가 떨어졌습니다. 나중에 꼭 갚아야 합니다!`);
+    }
+
+    function repayToFriend() {
+      if (gameState.debt <= 0) {
+        showModal("철수에게 빌린 돈이 없습니다!");
+        return;
+      }
+      if (gameState.cash < 5000) {
+        showModal("지갑에 5,000원이 없어서 빚을 갚을 수 없습니다!");
+        return;
+      }
+
+      sndCoin();
+      gameState.cash -= 5000;
+      gameState.debt -= 5000;
+      gameState.repaidCount++;
+      gameState.trust = Math.min(100, gameState.trust + 30);
+      gameState.logic = Math.min(100, gameState.logic + 15);
+
+      fullLedger.push({
+        week: `${gameState.currentWeek}주차`,
+        date: '빚 상환',
+        desc: '철수 빚 5,000원 갚음 (신뢰 회복)',
+        in: 0, buy: 5000, save: 0, give: 0, balance: gameState.cash
+      });
+
+      updateHUD();
+      showModal(`🤝 철수에게 5,000원을 갚았습니다!\n\n남은 빚: [${gameState.debt.toLocaleString()}원]\n약속을 지켜 친구들의 신뢰도가 크게 올랐습니다!`);
+    }
+
+    /* 15개 시나리오 데이터 (storyTag 탑재) */
+    const weeksScenarios = {
+      1: [
+        {
+          key: 'w1_1',
+          badge: '1주차 : 월요일 방과 후', icon: '🏪',
+          title: '문구점 신상 럭키박스(5,000원)의 유혹!',
+          desc: '용돈을 받자마자 문구점에 갔더니 친구들이 5,000원짜리 럭키박스를 까며 환호하고 있습니다. "오늘 용돈 받았잖아! 한 방에 대박 노려봐!"',
+          choices: [
+            {
+              storyTag: 'lucky_buy',
+              txt: '💥 "용돈 받은 날인데 질러야지!" 5,000원 럭키박스 구매',
+              cost: 5000,
+              effect: { logic: -25, happy: 10 },
+              errorType: 'unplannedSpend',
+              kakeiboDesc: '문구점 럭키박스 충동구매',
+              fbTitle: '🚨 [계획을 세우지 않은 소비] 실패!',
+              fbDesc: '월요일 첫날부터 일주일 용돈의 대부분(5,000원)을 탕진했습니다! 나온 건 조잡한 플라스틱 장난감뿐... 지갑이 텅 비어버렸습니다.',
+              theory: '교과서 82쪽 2단계(계획 세우기): 요일별, 용도별로 나누어 쓰지 않고 초반에 다 써버리면 정작 꼭 필요한 순간에 쓸 돈이 없어집니다.'
+            },
+            {
+              storyTag: 'lucky_snack',
+              txt: '🥪 배가 고프니 계획에 있던 맛있는 간식(1,000원)만 사 먹기',
+              cost: 1000,
+              effect: { logic: 15, happy: 15 },
+              kakeiboDesc: '월요일 방과 후 간식',
+              fbTitle: '👏 훌륭한 예산 절제!',
+              fbDesc: '친구들의 충동구매에 휩쓸리지 않고 내가 정한 작은 간식(1,000원)만 지출했습니다. 속도 든든하고 남은 돈도 안전합니다!',
+              theory: '교과서 82쪽: 수입에 맞게 지출 우선순위를 정하고 계획된 한도 내에서 소비하는 올바른 습관입니다.'
+            },
+            {
+              storyTag: 'lucky_hold',
+              txt: '🛡️ "계획에 없던 돈은 안 써!" 꾹 참고 0원으로 집으로 귀가',
+              cost: 0,
+              effect: { logic: 20, happy: -5 },
+              kakeiboDesc: '지출 없음 (유혹 방어)',
+              fbTitle: '🛡️ 강력한 절제력 발휘!',
+              fbDesc: '화려한 유혹을 완벽하게 이겨냈습니다. 이번 주 내내 든든하게 쓸 종잣돈을 지켰습니다.',
+              theory: '충동구매를 막으려면 유혹의 장소에서 즉시 벗어나 냉정하게 생각할 시간을 가져야 합니다.'
+            }
+          ]
+        },
+        {
+          key: 'w1_2',
+          badge: '1주차 : 화요일 미술 시간', icon: '✏️',
+          title: '짝꿍의 반짝이 LED 캐릭터 필통(4,000원)',
+          desc: '짝꿍이 4,000원짜리 반짝이 LED 필통을 자랑합니다. 하지만 내 가방 속에는 지난달 부모님이 사주신 멀쩡하고 깨끗한 새 필통이 들어 있습니다.',
+          choices: [
+            {
+              storyTag: 'pencil_copy',
+              txt: '🛍️ "친구 거 너무 예뻐! 나도 질 수 없지!" 똑같이 4,000원에 따라 사기',
+              cost: 4000,
+              effect: { logic: -30, happy: 10 },
+              errorType: 'noPurpose',
+              kakeiboDesc: '친구 따라 산 LED 필통',
+              fbTitle: '🚨 [목적을 고려하지 않은 소비] 실패!',
+              fbDesc: '멀쩡한 새 필통이 있는데도 단지 "친구가 가진 게 예뻐 보여서" 4,000원을 썼습니다. 며칠 뒤면 유행이 지나 서랍에 처박힐 게 뻔합니다.',
+              theory: '교과서 82쪽 1단계(목적을 고려하여 결정하기): "같은 종류의 물건을 이미 가지고 있지 않나요?"를 건너뛴 모방 소비입니다.'
+            },
+            {
+              storyTag: 'pencil_sticker',
+              txt: '🎨 내 필통에 500원짜리 스티커를 붙여 나만의 커스텀 필통 만들기',
+              cost: 500,
+              effect: { logic: 15, happy: 20 },
+              kakeiboDesc: '필통 리폼용 스티커',
+              fbTitle: '🌟 창의적이고 알뜰한 해결!',
+              fbDesc: '새 필통을 또 사는 낭비 대신 500원짜리 스티커로 개성 넘치는 필통을 만들었습니다! 친구들도 독특하다고 칭찬합니다.',
+              theory: '교과서 82쪽 5단계(사용하기): 가지고 있는 물건을 아끼고 창의적으로 가꾸어 쓰는 것이 진정한 절약입니다.'
+            },
+            {
+              storyTag: 'pencil_hold',
+              txt: '😌 "내 필통도 아직 튼튼하고 좋아!" 친구 칭찬만 해주고 만족하기',
+              cost: 0,
+              effect: { logic: 20, happy: 10 },
+              kakeiboDesc: '지출 없음 (기존 필통 만족)',
+              fbTitle: '👍 단단한 자존감과 현명함!',
+              fbDesc: '남을 따라 사는 대신 내가 가진 물건의 소중함을 인정했습니다. 불필요한 지출 4,000원을 아꼈습니다.',
+              theory: '현명한 소비자는 타인의 시선이나 유행에 휘둘리지 않고 나에게 진짜 필요한 가치를 기준으로 결정합니다.'
+            }
+          ]
+        },
+        {
+          key: 'w1_3',
+          badge: '1주차 : 수요일 준비물', icon: '🍶',
+          title: '학교에 매일 들고 다닐 개인 물병 사기',
+          desc: '학교에서 위생을 위해 매일 가방에 넣고 다닐 가볍고 튼튼한 물병을 준비해 오라고 했습니다. 매장에 가보니 여러 물병이 진열되어 있습니다.',
+          choices: [
+            {
+              storyTag: 'bottle_heavy',
+              txt: '🪞 화려하지만 무겁고 깨지기 쉬운 도자기 유리 물병 (3,500원)',
+              cost: 3500,
+              effect: { logic: -30, happy: -10 },
+              errorType: 'unfitChoice',
+              kakeiboDesc: '무거운 도자기 물병 구입',
+              fbTitle: '🚨 [목적에 맞지 않게 선택한 소비] 실패!',
+              fbDesc: '가방에 넣고 다닐 가볍고 튼튼한 물병이 목적이었는데, 겉모습만 보고 무겁고 약한 물병을 샀습니다! 등굣길 가방은 돌덩이 같고 깨질까 봐 불안합니다.',
+              theory: '교과서 82쪽 4단계(선택하고 구매하기): 겉모습 디자인에만 현혹되지 않고 원래 사용하려는 용도와 실용성에 부합하는지 따져봐야 합니다.'
+            },
+            {
+              storyTag: 'bottle_fit',
+              txt: '💧 튼튼하고 가벼우며 세척이 쉬운 보온 물병 (3,000원)',
+              cost: 3000,
+              effect: { logic: 25, happy: 20 },
+              kakeiboDesc: '실용적인 휴대용 물병',
+              fbTitle: '🎯 목적에 100% 부합하는 선택!',
+              fbDesc: '가볍고 떨어뜨려도 깨지지 않아 가방에 쏙 들어갑니다! 매일 시원한 물을 마시며 수업 시간에 집중할 수 있게 되었습니다.',
+              theory: '교과서 82쪽: 상품 정보를 꼼꼼히 살피고 사용 목적에 최적화된 제품을 선택하는 합리적 구매입니다.'
+            },
+            {
+              storyTag: 'bottle_home',
+              txt: '🏠 집 찬장에 있는 깨끗한 보온병을 찾아 깨끗이 씻어 재사용 (0원)',
+              cost: 0,
+              effect: { logic: 30, happy: 15 },
+              kakeiboDesc: '집에 있는 보온병 재사용',
+              fbTitle: '♻️ 최고의 자원 재활용!',
+              fbDesc: '새로 사지 않고 집에서 이미 가지고 있는 자원을 찾아내 3,000원 예산을 통째로 절약했습니다!',
+              theory: '교과서 82쪽 1단계: "집에 같은 종류의 물건이 있지 않나요?"를 몸소 실천한 최고의 모범 사례입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w1_4',
+          badge: '1주차 : 목요일 하교길', icon: '🍪',
+          title: '편의점의 1+1 묶음 과자 대할인 유혹',
+          desc: '편의점 앞에서 "오늘만 대용량 과자 1+1 행사! 3,000원!" 포스터가 붙어 있습니다. 지금 당장 배가 많이 고프지는 않습니다.',
+          choices: [
+            {
+              storyTag: 'snack_bulk',
+              txt: '🛒 "1+1이니까 무조건 이득이야!" 3,000원어치 과자 구매',
+              cost: 3000,
+              effect: { logic: -15, happy: 10 },
+              kakeiboDesc: '1+1 대용량 과자 충동구매',
+              fbTitle: '⚠️ 묶음 할인 함정 주의!',
+              fbDesc: '필요하지도 않은데 단지 1+1이라는 이유로 3,000원을 썼습니다. 과자를 다 먹지도 못해 눅눅해졌습니다.',
+              theory: '할인 행사에 현혹되어 당장 먹지 않을 양을 과소비하는 것은 낭비입니다.'
+            },
+            {
+              storyTag: 'snack_single',
+              txt: '🧃 딱 먹고 싶은 700원짜리 미니 주스 1개만 사 마시기',
+              cost: 700,
+              effect: { logic: 20, happy: 15 },
+              kakeiboDesc: '미니 주스 1개',
+              fbTitle: '👏 적정량 소비!',
+              fbDesc: '행사 유혹에 빠지지 않고 딱 필요한 만큼만 적은 돈으로 만족을 얻었습니다.',
+              theory: '나의 진짜 필요(Need)에 집중하는 것이 현명한 소비자의 태도입니다.'
+            },
+            {
+              storyTag: 'snack_none',
+              txt: '🏠 "집에 가서 시원한 물 마셔야지!" 그대로 귀가 (0원)',
+              cost: 0,
+              effect: { logic: 20, happy: 5 },
+              kakeiboDesc: '군것질 절제 (0원)',
+              fbTitle: '👍 건강과 지갑 지키기 성공!',
+              fbDesc: '불필요한 당분 섭취도 피하고 용돈도 완벽하게 지켰습니다.',
+              theory: '사소한 군것질 지출을 줄이는 것이 목돈을 모으는 비결입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w1_5',
+          badge: '1주차 : 금요일 준비물', icon: '🖍️',
+          title: '미술 시간 12색 색연필 분실 위기!',
+          desc: '필통을 열어보니 검정색과 빨간색 색연필이 닳아 없어졌습니다. 문구점에서 24색 최고급 세트(3,500원)와 낱개 색연필(500원)을 팔고 있습니다.',
+          choices: [
+            {
+              storyTag: 'crayon_set',
+              txt: '✨ 기왕 사는 김에 3,500원짜리 24색 최고급 세트로 새로 구매',
+              cost: 3500,
+              effect: { logic: -20, happy: 15 },
+              kakeiboDesc: '24색 색연필 세트 과다구매',
+              fbTitle: '💸 아쉬운 과다 지출',
+              fbDesc: '2자루만 필요한데 세트 전체를 새로 사서 멀쩡한 색연필들이 집에 넘쳐나게 되었습니다.',
+              theory: '필요한 부분만 보충하는 것이 자원 낭비를 막는 지름길입니다.'
+            },
+            {
+              storyTag: 'crayon_fill',
+              txt: '✏️ 딱 없어진 검정, 빨강 낱개 2자루만 1,000원에 알뜰 구매',
+              cost: 1000,
+              effect: { logic: 25, happy: 20 },
+              kakeiboDesc: '색연필 낱개 2자루 보충',
+              fbTitle: '🎯 완벽한 알뜰 보충!',
+              fbDesc: '기존 세트를 그대로 살리면서 딱 필요한 1,000원만 지출했습니다.',
+              theory: '교과서 82쪽: 고쳐 쓰고 채워 쓰는 5단계 사용하기의 모범입니다.'
+            },
+            {
+              storyTag: 'crayon_lend',
+              txt: '🤝 친구에게 오늘 수업 때만 빌려 쓰고 다음 주에 낱개 구매하기 (0원)',
+              cost: 0,
+              effect: { logic: 20, happy: 10 },
+              kakeiboDesc: '친구 색연필 빌려 쓰기',
+              fbTitle: '🤝 지혜로운 임시 대처!',
+              fbDesc: '급한 충동구매를 미루고 계획적으로 지출할 여유를 벌었습니다.',
+              theory: '지출을 하루만 늦춰도 충동구매의 80%를 예방할 수 있습니다.'
+            }
+          ]
+        }
+      ],
+
+      2: [
+        {
+          key: 'w2_1',
+          badge: '2주차 : 월요일 저녁', icon: '🤖',
+          title: '정가 5,000원 장난감의 3,000원 특가 세일?!',
+          desc: '스마트폰 쇼핑몰에서 정가 5,000원짜리 미니 블록 장난감을 "오늘만 3,000원 파격 할인!"이라고 홍보하고 있습니다. 마음이 조급해집니다.',
+          choices: [
+            {
+              storyTag: 'toy_rush',
+              txt: '⚡ "대박 할인이다! 품절 전에 당장 사야 해!" 3,000원 즉시 결제',
+              cost: 3000,
+              effect: { logic: -25, happy: -10 },
+              errorType: 'lackInfo',
+              kakeiboDesc: '인터넷 특가 미니 블록 결제',
+              fbTitle: '🚨 [정보 수집이 부족한 소비] 실패!',
+              fbDesc: '인터넷에서 3,000원에 싸게 샀다고 기뻐했는데... 다음 날 학교 앞 문구점에 가보니 똑같은 장난감을 상시가 2,000원에 팔고 있었습니다! 배송비와 시간까지 날려 속이 쓰립니다.',
+              theory: '교과서 82쪽 3단계(정보를 수집하고 정리하기): "할인" 문구에 혹하지 말고 주변 상점 가격 비교와 상품 정보를 차분히 수집해야 덤터기를 피할 수 있습니다.'
+            },
+            {
+              storyTag: 'toy_compare',
+              txt: '🔍 바로 사지 않고 학교 앞 문구점과 마트 가격을 먼저 확인해보기 (0원)',
+              cost: 0,
+              effect: { logic: 25, happy: 15 },
+              kakeiboDesc: '가격 정보 비교 조사',
+              fbTitle: '🕵️ 똑똑한 가격 탐정!',
+              fbDesc: '충동 결제를 멈추고 문구점을 확인한 결과 2,000원에 판다는 사실을 알아냈습니다! 소중한 용돈을 지켜냈습니다.',
+              theory: '교과서 82쪽: 여러 방법(인터넷, 오프라인 매장, 친구 후기)으로 정보를 모으면 더 신뢰할 수 있는 결정을 내릴 수 있습니다.'
+            },
+            {
+              storyTag: 'toy_lib',
+              txt: '📚 장난감 대신 도서관에서 신간 만화/소설 빌려 읽기 (0원)',
+              cost: 0,
+              effect: { logic: 20, happy: 25 },
+              kakeiboDesc: '도서관 책 대출 (문화생활)',
+              fbTitle: '📖 돈 안 들이고 지식 충전!',
+              fbDesc: '잠깐 가지고 놀다 질릴 장난감 대신 재미있는 책을 읽으며 지혜를 쌓았습니다. 만족도는 200% 상승했습니다.',
+              theory: '소비만이 행복의 유일한 길이 아닙니다. 공공시설(도서관, 공원)을 이용하는 것도 훌륭한 자원 활용입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w2_2',
+          badge: '2주차 : 화요일 하교길', icon: '🎨',
+          title: 'DIY 보석 십자수 비즈 키트(2,500원) 유행',
+          desc: '친구들이 요즘 비즈 만들기 키트에 푹 빠져 있습니다. 나도 사면 근사한 열쇠고리를 만들 수 있을 것 같아 눈길이 갑니다.',
+          choices: [
+            {
+              storyTag: 'beads_abandon',
+              txt: '📦 "남들 다 하니까 일단 사자!" 사고 나서 책상 구석에 방치 (2,500원)',
+              cost: 2500,
+              effect: { logic: -30, happy: -15 },
+              errorType: 'unusedItem',
+              kakeiboDesc: '비즈 만들기 세트 (미사용 방치)',
+              fbTitle: '🚨 [구매한 것을 사용하지 않은 소비] 실패!',
+              fbDesc: '사 올 때는 신났지만 포장도 다 안 뜯은 채 "귀찮다"며 침대 밑에 처박아 두었습니다. 돈은 돈대로 나가고 방바닥엔 쓰레기만 늘었습니다.',
+              theory: '교과서 82쪽 5단계(사용하기): 물건은 사는 것으로 끝나는 게 아니라 용도에 맞게 끝까지 책임지고 사용해야만 진정한 가치가 발생합니다.'
+            },
+            {
+              storyTag: 'beads_finish',
+              txt: '✂️ 키트(2,500원)를 사서 주말 동안 정성껏 완성해 가방에 달기',
+              cost: 2500,
+              effect: { logic: 15, happy: 25 },
+              kakeiboDesc: '비즈 키트 완제품 제작',
+              fbTitle: '✨ 100% 가치 실현 소비!',
+              fbDesc: '산 물건을 포기하지 않고 끝까지 정성 들여 완성했습니다! 내 손으로 만든 멋진 작품을 가방에 달고 다니니 뿌듯함이 가득합니다.',
+              theory: '교과서 82쪽: 구입한 물건을 아끼며 목적에 맞게 끝까지 활용하는 바람직한 소비 태도입니다.'
+            },
+            {
+              storyTag: 'beads_share',
+              txt: '🤝 친구의 남는 비즈 재료를 조금 얻어 미니 열쇠고리 만들어보기 (0원)',
+              cost: 0,
+              effect: { logic: 20, happy: 20 },
+              kakeiboDesc: '친구와 재료 나눔 제작',
+              fbTitle: '🤝 지혜로운 공유 경제!',
+              fbDesc: '새 키트를 사서 재료를 낭비하지 않고, 친구와 남는 비즈를 나누어 쓰며 우정도 돈독해졌습니다.',
+              theory: '자원을 공유하고 협력하면 낭비를 줄이고 환경과 지갑을 동시에 지킬 수 있습니다.'
+            }
+          ]
+        },
+        {
+          key: 'w2_3',
+          badge: '2주차 : 수요일 생일 파티', icon: '🎂',
+          title: '절친의 깜짝 생일 파티 초대!',
+          desc: '단짝 친구의 생일입니다. 친구에게 줄 선물을 준비해야 합니다. 지갑에는 여유가 조금 있습니다.',
+          choices: [
+            {
+              storyTag: 'gift_expensive',
+              txt: '🎁 문구점에서 제일 비싸고 화려한 캐릭터 인형(4,500원) 사기',
+              cost: 4500,
+              effect: { logic: -15, happy: 15 },
+              kakeiboDesc: '친구 생일 비싼 인형 선물',
+              fbTitle: '💸 무리한 선물 지출',
+              fbDesc: '친구는 좋아했지만 내 일주일 예산이 완전히 엉망이 되었습니다. 분에 넘치는 선물은 부담이 됩니다.',
+              theory: '선물은 마음의 크기이지 돈의 액수가 아닙니다. 내 예산 한도 내에서 준비해야 합니다.'
+            },
+            {
+              storyTag: 'gift_warm',
+              txt: '💌 친구가 좋아하는 1,500원 예쁜 수첩과 정성 어린 축하 손편지',
+              cost: 1500,
+              effect: { logic: 25, happy: 30 },
+              kakeiboDesc: '정성 가득 생일 수첩+편지',
+              fbTitle: '💖 최고의 감동 선물!',
+              fbDesc: '친구가 손편지를 읽고 눈물을 글썽이며 고마워했습니다! 예산도 지키고 우정도 최고로 깊어졌습니다.',
+              theory: '정성과 배려가 담긴 지출이야말로 가장 가치 있는 합리적 소비입니다.'
+            },
+            {
+              storyTag: 'gift_diy',
+              txt: '🎨 집에서 직접 그린 축하 카드와 종이접기 선물 상자 (0원)',
+              cost: 0,
+              effect: { logic: 25, happy: 25 },
+              kakeiboDesc: '직접 만든 수제 생일 카드',
+              fbTitle: '🎨 세상에 하나뿐인 선물!',
+              fbDesc: '돈을 들이지 않고 내 손재주와 정성만으로 친구에게 큰 기쁨을 주었습니다.',
+              theory: '시간과 재능이라는 인적 자원을 활용한 훌륭한 비금전적 선물입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w2_4',
+          badge: '2주차 : 목요일 게임 시간', icon: '🎮',
+          title: '모바일 게임의 한정판 캐릭터 뽑기 팝업',
+          desc: '친구들과 같이 하는 게임에서 "오늘 단 하루! 3,000원에 한정판 스킨 지급!" 팝업창이 반짝거립니다.',
+          choices: [
+            {
+              storyTag: 'game_pay',
+              txt: '💳 "친구들한테 자랑해야지!" 3,000원 결제',
+              cost: 3000,
+              effect: { logic: -20, happy: 10 },
+              kakeiboDesc: '게임 한정판 스킨 결제',
+              fbTitle: '💸 사라지는 디지털 소비',
+              fbDesc: '친구들에게 잠깐 자랑했지만 며칠 뒤면 게임에 질릴 텐데 실물도 남지 않는 3,000원이 사라졌습니다.',
+              theory: '게임 아이템 결제는 만족이 매우 일시적이므로 엄격한 계획이 필수입니다.'
+            },
+            {
+              storyTag: 'game_field',
+              txt: '🏃‍♂️ 결제 유혹을 끄고 친구들과 운동장 나가서 피구 하기 (0원)',
+              cost: 0,
+              effect: { logic: 25, happy: 25 },
+              kakeiboDesc: '운동장 친구들과 피구 (0원)',
+              fbTitle: '⚽ 건강한 현실의 즐거움!',
+              fbDesc: '가상 아이템 대신 땀 흘리며 진짜 친구들과 웃고 떠들며 체력도 기르고 돈도 아꼈습니다.',
+              theory: '소비보다 가치 있는 신체 활동과 대인 관계를 선택한 성숙한 결정입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w2_5',
+          badge: '2주차 : 토요일 나눔의 날', icon: '🎁',
+          title: '주말 사랑 나눔과 작은 기부의 기회',
+          desc: '주말을 맞아 마트에 갔습니다. 고생하시는 부모님께 드릴 붕어빵 간식(1,500원)을 사거나 구세군/동물 보호 모금함을 지나치게 되었습니다.',
+          choices: [
+            {
+              storyTag: 'parent_snack',
+              txt: '☕ 부모님을 위해 따뜻한 간식(1,500원) 깜짝 효도 선물하기',
+              cost: 1500,
+              effect: { logic: 15, happy: 30 },
+              kakeiboDesc: '부모님 깜짝 효도 간식',
+              fbTitle: '💖 세상에서 가장 값진 지출!',
+              fbDesc: '"우리 딸/아들이 언제 이렇게 컸니?" 부모님의 얼굴에 환한 미소가 번졌습니다. 온 가족이 큰 행복을 누렸습니다.',
+              theory: '교과서 83쪽: 용돈은 나만을 위해 쓰는 것이 아니라 가족 선물이나 감사 표현 등 따뜻한 관계를 맺는 데도 쓰입니다.'
+            },
+            {
+              storyTag: 'donate_box',
+              txt: '🪙 사랑의 열매 모금함에 1,000원 기부하기',
+              cost: 1000,
+              effect: { logic: 15, happy: 25 },
+              kakeiboDesc: '이웃 돕기 사랑의 기부',
+              fbTitle: '🕊️ 아름다운 나눔의 실천!',
+              fbDesc: '내 작은 용돈의 일부가 어려운 이웃에게 따뜻한 희망이 되었습니다. 마음이 뿌듯해집니다.',
+              theory: '교과서 83쪽 3단계: 용돈 지출에는 구입뿐만 아니라 [저축]과 [기부]라는 숭고한 가치가 포함되어 있습니다.'
+            },
+            {
+              storyTag: 'parent_massage',
+              txt: '🚶 돈 대신 집안일 청소 도와드리기 & 어깨 안마해 드리기 (0원)',
+              cost: 0,
+              effect: { logic: 20, happy: 20 },
+              kakeiboDesc: '효도 안마 및 청소 봉사',
+              fbTitle: '👏 마음으로 전하는 선물!',
+              fbDesc: '돈을 들이지 않고도 정성과 노력으로 사랑을 실천했습니다.',
+              theory: '시간과 노력도 돈 못지않은 소중한 인적 자원입니다.'
+            }
+          ]
+        }
+      ],
+
+      3: [
+        {
+          key: 'w3_1',
+          badge: '3주차 : 월요일 준비물', icon: '📐',
+          title: '모둠 과제용 색종이와 풀 구매 미션',
+          desc: '모둠 숙제를 위해 색종이와 풀이 필요합니다. 대형 마트에는 대용량 묶음(3,000원)이 있고 문구점에는 딱 필요한 낱개(1,000원)가 있습니다.',
+          choices: [
+            {
+              storyTag: 'paper_bulk',
+              txt: '📦 "많으면 좋겠지?" 굳이 필요 없는 대용량 세트(3,000원) 구매',
+              cost: 3000,
+              effect: { logic: -15, happy: 5 },
+              kakeiboDesc: '색종이 대용량 과다 구매',
+              fbTitle: '⚠️ 과다 지출 주의!',
+              fbDesc: '색종이 몇 장만 필요한데 너무 많이 사서 서랍만 어지럽히게 되었습니다. 필요 이상으로 많이 사는 것도 낭비입니다.',
+              theory: '필요한 분량만큼만 계획적으로 구매하는 것이 자원 절약의 기본입니다.'
+            },
+            {
+              storyTag: 'paper_fit',
+              txt: '✂️ 딱 이번 과제에 필요한 낱개 색종이와 풀(1,000원)만 알뜰 구매',
+              cost: 1000,
+              effect: { logic: 25, happy: 15 },
+              kakeiboDesc: '모둠 과제 알뜰 학용품',
+              fbTitle: '🎯 완벽한 실용 구매!',
+              fbDesc: '남겨서 버려지는 쓰레기 없이 딱 필요한 만큼만 사서 모둠 숙제를 성공적으로 마쳤습니다!',
+              theory: '교과서 82쪽: 수입과 예산에 맞게 꼭 필요한 양만 구입하는 합리적 소비입니다.'
+            },
+            {
+              storyTag: 'paper_share',
+              txt: '📁 모둠 친구들과 각자 집에 있는 남는 재료를 챙겨와 합치기 (0원)',
+              cost: 0,
+              effect: { logic: 30, happy: 20 },
+              kakeiboDesc: '모둠원 집 재료 모으기',
+              fbTitle: '🤝 최고 효율의 협력 소비!',
+              fbDesc: '돈을 1원도 안 쓰고도 집안의 잉여 자원을 모아 멋진 과제물을 완성했습니다!',
+              theory: '주변의 생활 자원을 먼저 점검하고 재활용하는 친환경 소비 습관입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w3_2',
+          badge: '3주차 : 수요일 방과 후', icon: '🍦',
+          title: '하교길 친구들의 군것질 파티 유혹',
+          desc: '날씨가 더워지자 친구들이 편의점에서 아이스크림과 과자를 연속으로 사 먹자고 부릅니다. 2,000원 정도 쓸 수 있습니다.',
+          choices: [
+            {
+              storyTag: 'ice_party',
+              txt: '🥤 분위기에 휩쓸려 과자와 음료수 2,000원어치 군것질하기',
+              cost: 2000,
+              effect: { logic: -10, happy: 15 },
+              kakeiboDesc: '방과 후 편의점 과자 파티',
+              fbTitle: '😋 맛있었지만 지갑은 가벼워짐!',
+              fbDesc: '잠깐의 달콤함은 있었지만 저녁밥을 남기게 되었고 계획에 없던 2,000원이 사라졌습니다.',
+              theory: '습관적인 군것질 지출은 티끌 모아 태산처럼 큰 낭비가 될 수 있습니다.'
+            },
+            {
+              storyTag: 'ice_bar',
+              txt: '🧊 시원한 500원짜리 아이스바 1개만 사서 기분 좋게 맛보기',
+              cost: 500,
+              effect: { logic: 20, happy: 20 },
+              kakeiboDesc: '소박한 500원 아이스바',
+              fbTitle: '🍦 소소하고 확실한 행복!',
+              fbDesc: '친구들과 어울리면서도 예산을 크게 초과하지 않는 똑똑한 절충안을 찾았습니다.',
+              theory: '무조건 참기보다 소액으로 조절하여 만족감을 유지하는 합리적 태도입니다.'
+            },
+            {
+              storyTag: 'ice_bottle',
+              txt: '💧 집에서 챙겨온 시원한 개인 물병 물 마시고 귀가하기 (0원)',
+              cost: 0,
+              effect: { logic: 25, happy: 10 },
+              kakeiboDesc: '물병 식수 음용 (0원)',
+              fbTitle: '👏 건강과 돈을 모두 지킴!',
+              fbDesc: '1주차에 준비한 개인 물병을 100% 활용하여 건강도 지키고 돈도 완벽히 아꼈습니다!',
+              theory: '구입한 물건을 생활 속에서 꾸준히 잘 사용하는 5단계(사용하기) 모범입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w3_3',
+          badge: '3주차 : 목요일 알뜰 장터', icon: '🧸',
+          title: '아파트 단지 알뜰 벼룩시장 열림!',
+          desc: '단지 내에서 중고 물건을 파는 알뜰 벼룩시장이 열렸습니다. 안 쓰는 내 물건을 팔 수도 있고 남의 물건을 구경할 수도 있습니다.',
+          choices: [
+            {
+              storyTag: 'flea_buy',
+              txt: '🛍️ 싸다고 신나서 쓸데없는 중고 장난감(2,000원) 충동구매',
+              cost: 2000,
+              effect: { logic: -15, happy: 5 },
+              kakeiboDesc: '중고 장난감 충동구매',
+              fbTitle: '⚠️ 중고 벼룩시장 충동구매 주의!',
+              fbDesc: '단지 싸다는 이유로 안 쓰는 물건을 또 사서 방에 짐만 늘렸습니다.',
+              theory: '중고 물건이라도 나에게 진짜 필요한지 먼저 따져봐야 합니다.'
+            },
+            {
+              storyTag: 'flea_sell',
+              txt: '💰 집에 안 읽는 책 3권을 벼룩시장에 내놓아 1,500원 용돈 벌기 (+1,500원)',
+              cost: -1500,
+              effect: { logic: 30, happy: 25 },
+              kakeiboDesc: '벼룩시장 중고책 판매 수입',
+              fbTitle: '🎉 훌륭한 자원 순환과 수입 창출!',
+              fbDesc: '방도 깨끗이 정리하고 필요한 다른 친구에게 책을 전하며 1,500원의 알뜰 수입까지 얻었습니다!',
+              theory: '자원을 재활용하여 새로운 가치를 만들어내는 최고의 경제 생활입니다.'
+            },
+            {
+              storyTag: 'flea_watch',
+              txt: '👀 이웃들과 인사 나누며 벼룩시장 활기만 구경하고 오기 (0원)',
+              cost: 0,
+              effect: { logic: 20, happy: 15 },
+              kakeiboDesc: '벼룩시장 구경 (0원)',
+              fbTitle: '🚶 알뜰한 동네 산책!',
+              fbDesc: '돈을 쓰지 않고도 동네 축제 분위기를 즐기며 즐거운 오후를 보냈습니다.',
+              theory: '비소비적인 여가 생활을 즐기는 것도 훌륭한 자원 관리 능력입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w3_4',
+          badge: '3주차 : 금요일 저녁', icon: '🔧',
+          title: '지퍼가 살짝 고장 난 아끼는 보조 가방',
+          desc: '가방 지퍼가 걸려 잘 안 열립니다. 새로 예쁜 가방(4,000원)을 살 수도 있고 부모님과 함께 지퍼를 고쳐 쓸 수도 있습니다.',
+          choices: [
+            {
+              storyTag: 'bag_buy',
+              txt: '🛍️ "귀찮아, 새 가방 사자!" 4,000원 주고 새 가방 쇼핑',
+              cost: 4000,
+              effect: { logic: -20, happy: 10 },
+              kakeiboDesc: '새 보조 가방 구입',
+              fbTitle: '💸 아쉬운 교체 소비',
+              fbDesc: '아직 천도 튼튼한 가방인데 작은 고장 때문에 버리고 새것을 샀습니다. 지갑도 얇아지고 쓰레기가 생겼습니다.',
+              theory: '교과서 82쪽 5단계: 작은 흠집이나 고장은 수리해서 오래 쓰는 태도가 필요합니다.'
+            },
+            {
+              storyTag: 'bag_repair',
+              txt: '🧵 부모님께 여쭈어 양초나 연필심을 발라 지퍼를 스스로 고치기 (0원)',
+              cost: 0,
+              effect: { logic: 30, happy: 30 },
+              kakeiboDesc: '가방 지퍼 수리 재사용',
+              fbTitle: '🏆 자원 관리 마스터!',
+              fbDesc: '지퍼에 양초를 칠하자 스르륵 완벽하게 고쳐졌습니다! 4,000원도 아끼고 물건을 아끼는 보람을 배웠습니다.',
+              theory: '교과서 82쪽: 고쳐 쓰고 아껴 쓰는 것이 지속 가능한 소비의 최고봉입니다.'
+            }
+          ]
+        },
+        {
+          key: 'w3_5',
+          badge: '3주차 : 토요일 최종 마감', icon: '📒',
+          title: '3주 프로젝트 마지막 밤: 용돈 기입장 결산 준비',
+          desc: '3주간의 대장정이 끝납니다. 책상에 앉아 영수증을 모으고 남은 빚이 있다면 어떻게 할지 깊이 생각합니다.',
+          choices: [
+            {
+              storyTag: 'final_ledger',
+              txt: '📊 영수증과 지출 내역을 차분히 정리하며 나의 3주 돌아보기 (0원)',
+              cost: 0,
+              effect: { logic: 25, happy: 20 },
+              kakeiboDesc: '3주 최종 가계부 마감 정리',
+              fbTitle: '🏆 성숙한 마무리의 힘!',
+              fbDesc: '지난 3주 동안 내가 어디서 돈을 낭비했고 어디서 성장했는지 명확히 파악했습니다.',
+              theory: '교과서 82쪽 6단계(되돌아보기): 기록하고 반성하는 피드백이 있어야만 진짜 내 습관이 됩니다.'
+            }
+          ]
+        }
+      ]
+    };
+
+    function updateHUD() {
+      document.getElementById('hud-money').innerText = `${gameState.cash.toLocaleString()}원`;
+      document.getElementById('hud-bank').innerText = `${gameState.bank.toLocaleString()}원`;
+      document.getElementById('hud-debt').innerText = `${gameState.debt.toLocaleString()}원 / 최대 10,000원`;
+      document.getElementById('hud-week-pill').innerText = `${gameState.currentWeek}주차`;
+
+      const btnBorrow = document.getElementById('btn-borrow');
+      if (gameState.debt >= 10000) {
+        btnBorrow.disabled = true;
+        btnBorrow.classList.add('opacity-40', 'cursor-not-allowed');
+      } else {
+        btnBorrow.disabled = false;
+        btnBorrow.classList.remove('opacity-40', 'cursor-not-allowed');
+      }
+
+      const btnRepay = document.getElementById('btn-repay');
+      if (gameState.debt > 0 && gameState.cash >= 5000) {
+        btnRepay.disabled = false;
+      } else {
+        btnRepay.disabled = true;
+      }
+
+      ['logic', 'happy', 'trust'].forEach(k => {
+        gameState[k] = Math.max(0, Math.min(100, gameState[k]));
+      });
+
+      document.getElementById('gauge-txt-logic').innerText = `${gameState.logic}점`;
+      document.getElementById('gauge-bar-logic').style.width = `${gameState.logic}%`;
+
+      document.getElementById('gauge-txt-happy').innerText = `${gameState.happy}점`;
+      document.getElementById('gauge-bar-happy').style.width = `${gameState.happy}%`;
+
+      document.getElementById('gauge-txt-trust').innerText = `${gameState.trust}점`;
+      document.getElementById('gauge-bar-trust').style.width = `${gameState.trust}%`;
+    }
+
+    function showWeekPlanView() {
+      document.querySelectorAll('.game-view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-week-plan').classList.remove('hidden');
+
+      const w = gameState.currentWeek;
+      document.getElementById('plan-week-badge').innerText = `${w}주차 시작`;
+      document.getElementById('plan-week-title').innerText = `🐷 ${w}주차 저축액을 정해보세요!`;
+      document.getElementById('plan-week-desc').innerHTML = `
+        현재 내 지갑에는 <strong>${gameState.cash.toLocaleString()}원</strong>이 있습니다.<br>
+        이번 주에 먼저 저축할 금액을 선택해 주세요.
+      `;
+
+      selectSaveAmount(Math.min(3000, gameState.cash >= 3000 ? 3000 : 1000));
+    }
+
+    function selectSaveAmount(amt) {
+      sndClick();
+      gameState.tempSelectedSave = amt;
+      const btns = document.querySelectorAll('.save-opt-btn');
+      btns.forEach(b => {
+        if (b.innerText.includes(amt.toLocaleString())) {
+          b.className = "save-opt-btn p-2.5 rounded-xl border-2 font-jua text-sm text-center bg-indigo-50 border-indigo-500 text-indigo-700 font-bold";
+        } else {
+          b.className = "save-opt-btn p-2.5 rounded-xl border-2 font-jua text-sm text-center bg-white border-gray-200 hover:border-indigo-400";
+        }
+      });
+
+      const remain = Math.max(0, gameState.cash - amt);
+      document.getElementById('plan-after-cash').innerText = `${remain.toLocaleString()}원`;
+    }
+
+    function confirmWeekSavings() {
+      const amt = gameState.tempSelectedSave;
+      if (amt > gameState.cash) {
+        showModal("지갑에 있는 돈보다 많이 저축할 수는 없어요!");
+        return;
+      }
+      sndCoin();
+      gameState.cash -= amt;
+      gameState.bank += amt;
+      gameState.weeklyStats[gameState.currentWeek].saved += amt;
+      gameState.logic += 10;
+
+      fullLedger.push({
+        week: `${gameState.currentWeek}주차`,
+        date: '월요일',
+        desc: `${gameState.currentWeek}주차 선저축 (목표 통장)`,
+        in: 0, buy: 0, save: amt, give: 0, balance: gameState.cash
+      });
+
+      showModal(`🎉 ${gameState.currentWeek}주차 저축 완료!\n\n[${amt.toLocaleString()}원]을 먼저 저축 통장에 넣었습니다.\n남은 [${gameState.cash.toLocaleString()}원]으로 이번 주 생활을 시작합니다!`);
+
+      gameState.stageIndexInWeek = 0;
+      updateHUD();
+      renderCurrentEventStage();
+    }
+
+    function renderCurrentEventStage() {
+      document.querySelectorAll('.game-view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-day-stage').classList.remove('hidden');
+
+      const weekList = weeksScenarios[gameState.currentWeek];
+      const ev = weekList[gameState.stageIndexInWeek];
+
+      document.getElementById('hud-day-pill').innerText = ev.badge.split(' : ')[1] || '진행 중';
+      document.getElementById('event-step-pill').innerText = `${gameState.stageIndexInWeek + 1} / ${weekList.length} 이벤트`;
+      document.getElementById('event-badge').innerText = ev.badge;
+      document.getElementById('event-icon').innerText = ev.icon;
+      document.getElementById('event-title').innerText = ev.title;
+      document.getElementById('event-desc').innerText = ev.desc;
+
+      const choicesBox = document.getElementById('event-choices');
+      choicesBox.innerHTML = "";
+
+      ev.choices.forEach(c => {
+        const btn = document.createElement('button');
+        const canAfford = (c.cost <= 0) || (gameState.cash >= c.cost);
+        btn.disabled = !canAfford;
+
+        btn.className = `w-full p-3.5 rounded-2xl border-2 transition text-left flex items-center justify-between gap-3 ${
+          canAfford
+            ? 'bg-sky-50/60 border-sky-200 hover:border-sky-400 hover:bg-sky-100/70 text-gray-800'
+            : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
+        }`;
+
+        let costBadge = "";
+        if (c.cost > 0) {
+          costBadge = `<span class="font-jua text-sm px-2.5 py-1 rounded-xl shrink-0 bg-amber-100 text-amber-800">-${c.cost.toLocaleString()}원</span>`;
+        } else if (c.cost < 0) {
+          costBadge = `<span class="font-jua text-sm px-2.5 py-1 rounded-xl shrink-0 bg-emerald-100 text-emerald-800">+${Math.abs(c.cost).toLocaleString()}원(수입)</span>`;
+        } else {
+          costBadge = `<span class="font-jua text-sm px-2.5 py-1 rounded-xl shrink-0 bg-emerald-50 text-emerald-700">0원</span>`;
+        }
+
+        btn.innerHTML = `
+          <div class="flex-grow">
+            <div class="font-jua text-sm md:text-base leading-snug">${c.txt}</div>
+            ${!canAfford ? '<span class="text-[11px] text-rose-500 font-bold block mt-1">⚠️ 돈이 모자랍니다! (철수에게 빌리거나 다른 선택을 하세요)</span>' : ''}
+          </div>
+          ${costBadge}
+        `;
+
+        btn.onclick = () => selectEventChoice(ev.key, c);
+        choicesBox.appendChild(btn);
+      });
+    }
+
+    function selectEventChoice(eventKey, c) {
+      sndClick();
+      gameState.choiceStoryLogs[eventKey] = c.storyTag;
+
+      if (c.cost > 0) {
+        gameState.cash -= c.cost;
+        gameState.weeklyStats[gameState.currentWeek].spent += c.cost;
+        sndCoin();
+      } else if (c.cost < 0) {
+        gameState.cash += Math.abs(c.cost);
+        sndCoin();
+      }
+
+      if (c.effect) {
+        Object.keys(c.effect).forEach(k => { gameState[k] += c.effect[k]; });
+      }
+
+      if (c.errorType) {
+        gameState.errors[c.errorType] = true;
+        gameState.weeklyStats[gameState.currentWeek].errors.push(c.errorType);
+      }
+
+      const isGive = (c.kakeiboDesc.includes('기부') || c.kakeiboDesc.includes('선물'));
+      fullLedger.push({
+        week: `${gameState.currentWeek}주차`,
+        date: stagesDateName(gameState.stageIndexInWeek),
+        desc: c.kakeiboDesc,
+        in: c.cost < 0 ? Math.abs(c.cost) : 0,
+        buy: (c.cost > 0 && !isGive) ? c.cost : 0,
+        save: 0,
+        give: isGive ? c.cost : 0,
+        balance: gameState.cash
+      });
+
+      updateHUD();
+      showChoiceFeedback(c);
+    }
+
+    function stagesDateName(idx) {
+      return ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일'][idx] || '주중';
+    }
+
+    function showChoiceFeedback(c) {
+      document.querySelectorAll('.game-view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-choice-fb').classList.remove('hidden');
+
+      document.getElementById('cfb-title').innerText = c.fbTitle;
+      document.getElementById('cfb-desc').innerText = c.fbDesc;
+      document.getElementById('cfb-theory').innerText = c.theory;
+
+      const effBox = document.getElementById('cfb-effects');
+      effBox.innerHTML = "";
+      if (c.cost > 0) effBox.innerHTML += `<span class="px-2.5 py-1 rounded-full bg-rose-100 text-rose-700">지출 -${c.cost.toLocaleString()}원</span>`;
+      if (c.cost < 0) effBox.innerHTML += `<span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700">수입 +${Math.abs(c.cost).toLocaleString()}원</span>`;
+      if (c.effect && c.effect.logic) effBox.innerHTML += `<span class="px-2.5 py-1 rounded-full ${c.effect.logic > 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}">합리성 ${c.effect.logic > 0 ? '+' : ''}${c.effect.logic}</span>`;
+      if (c.effect && c.effect.happy) effBox.innerHTML += `<span class="px-2.5 py-1 rounded-full ${c.effect.happy > 0 ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-700'}">만족도 ${c.effect.happy > 0 ? '+' : ''}${c.effect.happy}</span>`;
+
+      const nextBtn = document.getElementById('btn-next-event');
+      const isWeekLast = (gameState.stageIndexInWeek >= weeksScenarios[gameState.currentWeek].length - 1);
+
+      if (isWeekLast) {
+        if (gameState.currentWeek === 3) {
+          nextBtn.innerHTML = `📖 나의 3주 결말 소설 읽으러 가기 <i class="fa-solid fa-feather ml-1"></i>`;
+          nextBtn.className = "px-8 py-3 rounded-2xl font-jua text-lg bg-amber-600 hover:bg-amber-700 text-white shadow-lg animate-pulse";
+        } else {
+          nextBtn.innerHTML = `📅 ${gameState.currentWeek}주차 결산 & 피드백 확인하기 <i class="fa-solid fa-arrow-right ml-1"></i>`;
+          nextBtn.className = "px-8 py-3 rounded-2xl font-jua text-lg bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg";
+        }
+      } else {
+        nextBtn.innerHTML = `다음 날로 넘어가기 <i class="fa-solid fa-arrow-right ml-1"></i>`;
+        nextBtn.className = "px-8 py-3 rounded-2xl font-jua text-lg bg-sky-500 hover:bg-sky-600 text-white shadow-lg";
+      }
+    }
+
+    function nextEventOrReview() {
+      sndClick();
+      const weekList = weeksScenarios[gameState.currentWeek];
+      if (gameState.stageIndexInWeek < weekList.length - 1) {
+        gameState.stageIndexInWeek++;
+        renderCurrentEventStage();
+      } else {
+        if (gameState.currentWeek < 3) {
+          showWeeklyReview();
+        } else {
+          showFinalStoryView();
+        }
+      }
+    }
+
+    function showWeeklyReview() {
+      document.querySelectorAll('.game-view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-weekly-review').classList.remove('hidden');
+
+      const w = gameState.currentWeek;
+      const stats = gameState.weeklyStats[w];
+      document.getElementById('review-week-badge').innerText = `${w}주차 마감`;
+      document.getElementById('review-week-heading').innerText = `📊 ${w}주차 용돈 생활 되돌아보기`;
+      document.getElementById('review-spent').innerText = `${stats.spent.toLocaleString()}원`;
+      document.getElementById('review-saved').innerText = `${stats.saved.toLocaleString()}원`;
+      document.getElementById('review-debt').innerText = `${gameState.debt.toLocaleString()}원`;
+
+      let fbText = "";
+      if (w === 1) {
+        if (gameState.debt > 0) {
+          fbText = `⚠️ 1주차에 벌써 철수에게 빚(${gameState.debt.toLocaleString()}원)을 졌습니다! 돈이 모자라면 함부로 친구에게 빌리지 말고 내 씀씀이를 줄여야 합니다. 다음 주 용돈을 받으면 꼭 갚으세요!`;
+        } else if (stats.errors.length === 0) {
+          fbText = "👏 대단합니다! 1주차의 럭키박스 탕진, 친구 필통 따라사기, 무거운 도자기 물병 유혹을 모두 피했습니다. 튼튼한 절제력을 증명했습니다!";
+        } else {
+          fbText = `💡 1주차에 아쉬운 소비가 ${stats.errors.length}건 있었습니다. 초반에 너무 많은 돈을 쓰거나 친구의 새 물건을 부러워해 따라 사지 않았는지 돌아보세요.`;
+        }
+      } else if (w === 2) {
+        if (gameState.debt > 0) {
+          fbText = `🚨 2주차가 끝났는데도 철수에게 빌린 빚(${gameState.debt.toLocaleString()}원)이 남아있습니다! 친구와의 약속과 신뢰가 위태롭습니다. 3주차에는 반드시 빚을 갚아야 합니다!`;
+        } else if (stats.errors.length === 0) {
+          fbText = "🌟 완벽합니다! 2주차의 가짜 할인 광고에 속지 않고 꼼꼼히 비교했으며, 비즈 키트도 방치하지 않고 완성했습니다. 최고의 소비자입니다!";
+        } else {
+          fbText = `💡 2주차에 정보 수집 부족이나 물건 미사용 방치가 발생했습니다. "세일"이라는 말에 속지 말고 사기 전에 진짜 끝까지 쓸 자신이 있는지 다시 생각해보세요!`;
+        }
+      }
+      document.getElementById('review-feedback-text').innerText = fbText;
+    }
+
+    function startNextWeek() {
+      sndCoin();
+      gameState.currentWeek++;
+      gameState.cash += 10000;
+
+      fullLedger.push({
+        week: `${gameState.currentWeek}주차`,
+        date: '월요일',
+        desc: `${gameState.currentWeek}주차 용돈 입금`,
+        in: 10000, buy: 0, save: 0, give: 0, balance: gameState.cash
+      });
+
+      showModal(`🎉 ${gameState.currentWeek}주차가 시작되었습니다!\n\n새 용돈 [10,000원]이 지갑에 입금되었습니다.\n남은 돈과 합쳐서 이번 주 저축액을 먼저 정해봅시다!`);
+
+      updateHUD();
+      showWeekPlanView();
+    }
+
+    /* 3주 완주 소설 결말 모드 (선택지 로그에 기반한 장편 서사 생성) */
+    function showFinalStoryView() {
+      document.querySelectorAll('.game-view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-final-story').classList.remove('hidden');
+
+      const titleEl = document.getElementById('story-title');
+      const tagEl = document.getElementById('story-ending-tag');
+      const iconEl = document.getElementById('story-mood-icon');
+      const bodyEl = document.getElementById('story-paragraphs');
+
+      const logs = gameState.choiceStoryLogs;
+      const hasDebt = (gameState.debt > 0);
+      const isSuperSaver = (gameState.bank >= 10000);
+      const errCount = Object.values(gameState.errors).filter(v => v === true).length;
+
+      let paragraphs = [];
+
+      paragraphs.push(`3주간의 시간이 쏜살같이 흐르고, 마침내 내 방 책상 앞에 앉아 3권의 용돈 기입장과 지갑을 펼쳤다. 지난 21일 동안 마주했던 수많은 선택의 순간들이 마치 한 편의 영화처럼 머릿속을 스쳐 지나갔다.`);
+
+      // 1주차 서사
+      let w1Text = "<strong>[1주차의 기억]</strong> ";
+      if (logs['w1_1'] === 'lucky_buy') {
+        w1Text += "월요일 방과 후 문구점 럭키박스에 정신이 팔리면 안 됐는데... 5,000원이라는 큰돈을 충동적으로 쏟아붓고 손에 쥔 조잡한 플라스틱 장난감을 보며 첫날부터 지갑이 텅 비어 깊은 한숨을 내쉬었다. ";
+      } else if (logs['w1_1'] === 'lucky_snack') {
+        w1Text += "문구점의 화려한 럭키박스 유혹 앞에서도 마음을 다잡고, 계획했던 소박한 1,000원짜리 간식으로 속을 든든히 채우며 첫날의 예산을 훌륭히 지켜냈다. ";
+      } else {
+        w1Text += "친구들의 럭키박스 소동 속에서도 '계획에 없는 지출은 1원도 하지 않겠다'며 단호히 지갑을 닫고 돌아섰던 내 모습은 꽤 당당했다. ";
+      }
+
+      if (logs['w1_2'] === 'pencil_copy') {
+        w1Text += "하지만 화요일, 짝꿍의 반짝이 LED 필통이 너무 예뻐 보여 멀쩡한 새 필통이 집에 있는데도 4,000원을 주고 똑같이 따라 사고 말았다. 나만의 목적 없이 남의 시선만 쫓았던 부끄러운 소비였다. ";
+      } else if (logs['w1_2'] === 'pencil_sticker') {
+        w1Text += "화요일 짝꿍의 필통 자랑 앞에서도 흔들리지 않고, 500원짜리 스티커로 기존 필통을 개성 있게 리폼하여 친구들의 환호를 받았던 기억은 지금 생각해도 뿌듯하다. ";
+      } else {
+        w1Text += "화요일에는 남의 물건을 부러워하기보다 내 손때 묻은 필통의 소중함을 인정하며 의연하게 지갑을 지켰다. ";
+      }
+
+      if (logs['w1_3'] === 'bottle_heavy') {
+        w1Text += "학교 물병을 살 때도 실용성을 따지지 않고 겉모습만 보고 무거운 도자기 물병을 골라, 등굣길 내내 가방이 무거워 끙끙 앓으며 후회했다.";
+      } else if (logs['w1_3'] === 'bottle_fit') {
+        w1Text += "가볍고 튼튼한 보온 물병을 골라 매일 가방에 쏙 넣고 다니며 목적에 꼭 맞는 실용적인 구매의 기쁨을 맛보았다.";
+      } else {
+        w1Text += "집 찬장에 잠자던 보온병을 깨끗이 씻어 재사용함으로써 돈도 아끼고 자원도 살리는 지혜를 발휘했다.";
+      }
+      paragraphs.push(w1Text);
+
+      // 2주차 서사
+      let w2Text = "<strong>[2주차의 기억]</strong> ";
+      if (logs['w2_1'] === 'toy_rush') {
+        w2Text += "2주차에는 인터넷 쇼핑몰의 3,000원 특가 세일에 눈이 멀어 덜컥 결제했다가, 다음 날 문구점에서 똑같은 장난감을 2,000원에 파는 것을 보고 다른 가게의 가격도 꼼꼼히 살펴볼 걸 그랬다며 속이 쓰려 하염없이 후회했다. ";
+      } else if (logs['w2_1'] === 'toy_compare') {
+        w2Text += "인터넷 할인 광고에 덤벼들지 않고 침착하게 동네 문구점 가격을 발품 팔아 비교한 덕분에 바가지 지출을 완벽하게 막아냈다. ";
+      } else {
+        w2Text += "충동적인 장난감 쇼핑 대신 도서관에서 재미있는 책을 빌려 읽으며 돈을 쓰지 않고도 풍요로운 마음의 양식을 쌓았다. ";
+      }
+
+      if (logs['w2_2'] === 'beads_abandon') {
+        w2Text += "유행에 휩쓸려 샀던 DIY 비즈 키트는 포장도 다 뜯지 않은 채 침대 밑에 먼지만 쌓여가며 방치되었고, 쓸모없이 버려진 내 용돈이 너무나 아까웠다. ";
+      } else if (logs['w2_2'] === 'beads_finish') {
+        w2Text += "구입한 비즈 키트를 주말 내내 정성껏 완성하여 가방에 달고 다니며 물건의 가치를 100% 실현했다. ";
+      } else {
+        w2Text += "새 키트를 사지 않고 친구와 남는 비즈를 나누어 만들며 알뜰한 공유의 즐거움을 배웠다. ";
+      }
+
+      if (logs['w2_5'] === 'parent_snack') {
+        w2Text += "특히 주말에 부모님을 위해 깜짝 붕어빵 간식을 사서 건넸을 때 환하게 웃으시던 부모님의 표정 덕분에 부모님과의 사이가 한층 더 돈독해지고 따뜻해졌다.";
+      } else if (logs['w2_5'] === 'donate_box') {
+        w2Text += "사랑의 열매 모금함에 작은 동전을 기부하며 내 용돈이 누군가에게 따스한 희망이 될 수 있음을 느끼고 가슴이 벅차올랐다.";
+      } else {
+        w2Text += "돈을 쓰는 대신 부모님의 지친 어깨를 정성스레 안마해 드리며 마음으로 효도를 전했다.";
+      }
+      paragraphs.push(w2Text);
+
+      // 3주차 서사
+      let w3Text = "<strong>[3주차의 기억]</strong> ";
+      if (logs['w3_4'] === 'bag_repair') {
+        w3Text += "3주차에 고장 난 보조 가방 지퍼를 양초로 문질러 스스로 고쳐 냈을 때는 4,000원을 아꼈다는 기쁨을 넘어 물건을 아끼는 장인이 된 듯한 뿌듯함이 밀려왔다. ";
+      } else if (logs['w3_4'] === 'bag_buy') {
+        w3Text += "작은 고장을 귀찮아하며 4,000원을 주고 새 가방을 사버린 것은 지갑에도, 지구 환경에도 미안한 일이었다. ";
+      }
+
+      if (logs['w3_3'] === 'flea_sell') {
+        w3Text += "벼룩시장에서 안 읽는 책을 팔아 1,500원의 소중한 수입을 직접 벌어들인 경험은 돈의 가치를 다시금 깨닫게 해주었다.";
+      } else if (logs['w3_3'] === 'flea_buy') {
+        w3Text += "벼룩시장의 분위기에 취해 쓸데없는 중고 장난감을 사버려 방안에 짐만 늘리고 말았다.";
+      }
+      paragraphs.push(w3Text);
+
+      // 결말 총평
+      if (hasDebt) {
+        iconEl.innerText = "🥀";
+        titleEl.innerText = "차마 고개를 들 수 없었던 월요일 아침";
+        tagEl.className = "px-3 py-1 rounded-full text-xs font-jua bg-rose-200 text-rose-900";
+        tagEl.innerText = "신뢰 상실 배드엔딩";
+
+        paragraphs.push(`그러나 이 모든 기억들보다 나를 가장 무겁게 짓누른 것은 교실 저편에서 나를 바라보는 철수의 서늘한 눈빛이었다.`);
+        paragraphs.push(`돈이 부족할 때마다 쉽게 생각하며 빌렸던 <strong>${gameState.debt.toLocaleString()}원</strong>의 빚을 끝내 갚지 못했다. "쟤는 돈 빌려 가고 안 갚는대..." 쉬는 시간마다 수군거리는 친구들의 차가운 시선에 얼굴이 화끈거렸고, 철수에게 돈을 갚지 못해서 친구들 사이에서 가장 소중한 '신뢰'를 완전히 잃어버리고 말았다.`);
+        paragraphs.push(`내 용돈의 범위를 벗어나 남에게 손을 벌리는 것이 얼마나 위험한지, 한 번 깨진 신용은 그 어떤 돈으로도 되살릴 수 없다는 뼈아픈 교훈을 눈물과 함께 가슴에 새겼다.`);
+      } else {
+        if (isSuperSaver) {
+          iconEl.innerText = "👑";
+          titleEl.innerText = "1만 원을 돌파한 저축왕의 눈부신 통장";
+          tagEl.className = "px-3 py-1 rounded-full text-xs font-jua bg-emerald-200 text-emerald-900";
+          tagEl.innerText = "저축왕 대성공 엔딩";
+
+          paragraphs.push(`무엇보다 자랑스러운 것은 통장 잔고였다. 매주 꼬박꼬박 선저축을 실천하고 사소한 유혹을 지혜롭게 이겨낸 끝에, 내 통장에는 무려 <strong>${gameState.bank.toLocaleString()}원</strong>이라는 눈부신 목돈이 모였다!`);
+          paragraphs.push(`친구에게 빚을 지기는커녕 1만 원 이상의 종잣돈을 모아 당당히 <strong>'저축왕'</strong>이 되었다. 앞으로도 이런 습관을 이어간다면 미래에 마주할 더 큰 꿈들도 내 힘으로 멋지게 이뤄낼 수 있을 것이라는 확신이 들었다!`);
+          confetti({ particleCount: 180, spread: 90 });
+        } else if (errCount <= 1) {
+          iconEl.innerText = "🌟";
+          titleEl.innerText = "슬기롭게 빚어낸 3주간의 균형 잡힌 소비";
+          tagEl.className = "px-3 py-1 rounded-full text-xs font-jua bg-indigo-200 text-indigo-900";
+          tagEl.innerText = "합리적 소비 해피엔딩";
+
+          paragraphs.push(`철수에게 빌린 돈 하나 없이 깨끗한 신용을 지켰으며, 통장에는 <strong>${gameState.bank.toLocaleString()}원</strong>의 알찬 저축이 남았다. 충동에 휘둘리지 않고 스스로 예산을 다스린 나는 이제 24시간과 용돈을 모두 지배하는 진짜 생활 자원 마스터로 우뚝 섰다.`);
+          confetti({ particleCount: 140, spread: 75 });
+        } else {
+          iconEl.innerText = "🌱";
+          titleEl.innerText = "값진 반성을 거름 삼아 자라나는 소비 새싹";
+          tagEl.className = "px-3 py-1 rounded-full text-xs font-jua bg-amber-200 text-amber-900";
+          tagEl.innerText = "성장 반성 엔딩";
+
+          paragraphs.push(`비록 몇 차례의 충동구매로 아쉬움이 남았지만 철수에게 졌던 빚을 끝까지 책임지고 모두 갚아 친구 간의 신뢰를 지켜냈다. 3주간의 실수는 앞으로 평생 돈을 똑똑하게 관리할 수 있는 가장 값진 거름이 되어줄 것이다.`);
+        }
+      }
+
+      bodyEl.innerHTML = paragraphs.map(p => `<p class="leading-relaxed">${p}</p>`).join("");
+    }
+
+    /* 3주 최종 소비 분석 리포트 화면으로 이동 */
+    function goToFinalAnalysisReport() {
+      sndClick();
+      document.querySelectorAll('.game-view').forEach(v => v.classList.add('hidden'));
+      document.getElementById('view-final-analysis').classList.remove('hidden');
+
+      const netAssets = gameState.cash + gameState.bank - gameState.debt;
+      document.getElementById('final-total-assets').innerText = `${netAssets.toLocaleString()}원 (지갑:${gameState.cash.toLocaleString()} + 저축:${gameState.bank.toLocaleString()} - 빚:${gameState.debt.toLocaleString()})`;
+
+      let totalSpent = 0;
+      Object.values(gameState.weeklyStats).forEach(s => { totalSpent += s.spent; });
+      document.getElementById('final-stat-spend').innerText = `${totalSpent.toLocaleString()}원`;
+      document.getElementById('final-stat-saved').innerText = `${gameState.bank.toLocaleString()}원`;
+      document.getElementById('final-stat-debt').innerText = `${gameState.debt.toLocaleString()}원`;
+
+      const errCount = Object.values(gameState.errors).filter(v => v === true).length;
+      const hasDebt = (gameState.debt > 0);
+      const isSuperSaver = (gameState.bank >= 10000);
+
+      let title = "";
+      if (hasDebt) {
+        title = "💔 친구의 신뢰를 잃어버린 채무자";
+      } else if (isSuperSaver && errCount === 0) {
+        title = "👑 3주 완성 : 전설의 저축왕 & 소비 마스터";
+      } else if (errCount <= 1) {
+        title = "🌟 슬기로운 용돈 경영 요정";
+      } else if (errCount <= 3) {
+        title = "🌱 성장하는 알뜰 소비 새싹";
+      } else {
+        title = "💸 충동구매에 흔들렸던 탕진 탐험가";
+      }
+      document.getElementById('final-title-text').innerText = title;
+
+      // 5대 낭비 극복 현황 ('오류 발생' -> '실패')
+      const eBox = document.getElementById('final-error-checks');
+      eBox.innerHTML = `
+        <div class="p-2.5 rounded-xl border flex items-center justify-between ${gameState.errors.noPurpose ? 'bg-rose-50 border-rose-200' : 'bg-emerald-50 border-emerald-200'}">
+          <span>① 목적 고려 (친구 필통 따라사기 방어)</span>
+          <strong class="${gameState.errors.noPurpose ? 'text-rose-600 font-bold' : 'text-emerald-700 font-bold'}">${gameState.errors.noPurpose ? '실패' : '성공!'}</strong>
+        </div>
+        <div class="p-2.5 rounded-xl border flex items-center justify-between ${gameState.errors.unplannedSpend ? 'bg-rose-50 border-rose-200' : 'bg-emerald-50 border-emerald-200'}">
+          <span>② 계획 소비 (월요일 럭키박스 탕진 방어)</span>
+          <strong class="${gameState.errors.unplannedSpend ? 'text-rose-600 font-bold' : 'text-emerald-700 font-bold'}">${gameState.errors.unplannedSpend ? '실패' : '성공!'}</strong>
+        </div>
+        <div class="p-2.5 rounded-xl border flex items-center justify-between ${gameState.errors.lackInfo ? 'bg-rose-50 border-rose-200' : 'bg-emerald-50 border-emerald-200'}">
+          <span>③ 정보 수집 (인터넷 할인 장난감 비교)</span>
+          <strong class="${gameState.errors.lackInfo ? 'text-rose-600 font-bold' : 'text-emerald-700 font-bold'}">${gameState.errors.lackInfo ? '실패' : '성공!'}</strong>
+        </div>
+        <div class="p-2.5 rounded-xl border flex items-center justify-between ${gameState.errors.unfitChoice ? 'bg-rose-50 border-rose-200' : 'bg-emerald-50 border-emerald-200'}">
+          <span>④ 목적 적합 (물병 실용성 위주 선택)</span>
+          <strong class="${gameState.errors.unfitChoice ? 'text-rose-600 font-bold' : 'text-emerald-700 font-bold'}">${gameState.errors.unfitChoice ? '실패' : '성공!'}</strong>
+        </div>
+        <div class="p-2.5 rounded-xl border flex items-center justify-between ${gameState.errors.unusedItem ? 'bg-rose-50 border-rose-200' : 'bg-emerald-50 border-emerald-200'}">
+          <span>⑤ 사용과 보관 (DIY 키트 방치 안 하기)</span>
+          <strong class="${gameState.errors.unusedItem ? 'text-rose-600 font-bold' : 'text-emerald-700 font-bold'}">${gameState.errors.unusedItem ? '실패' : '성공!'}</strong>
+        </div>
+        <div class="p-2.5 rounded-xl border flex items-center justify-between ${hasDebt ? 'bg-red-50 border-red-300' : 'bg-emerald-50 border-emerald-200'}">
+          <span>⑥ 신용과 약속 (철수 빚 전액 상환)</span>
+          <strong class="${hasDebt ? 'text-red-700 font-bold' : 'text-emerald-700 font-bold'}">${hasDebt ? '실패 (미상환 빚 남음)' : '성공!'}</strong>
+        </div>
+      `;
+
+      // 선생님의 종합 다각도 조언
+      const adviceBox = document.getElementById('final-teacher-advice');
+      let adviceList = [];
+
+      if (hasDebt) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-rose-100/70 border border-rose-200 text-rose-900"><strong>🚨 친구 신용 경고:</strong> 철수에게 빌린 빚(${gameState.debt.toLocaleString()}원)을 갚지 못했습니다. 친구 사이에 돈을 빌리고 갚지 않는 것은 교실의 신뢰를 무너뜨리는 가장 위험한 행동입니다. 다음부터는 내 예산 한도 안에서만 소비하고 절대 남에게 손을 벌리지 마세요!</div>`);
+      } else if (gameState.borrowCount > 0) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-indigo-100/70 border border-indigo-200 text-indigo-900"><strong>🤝 약속 이행 칭찬:</strong> 철수에게 돈을 빌렸지만 끝까지 책임지고 전액 상환하여 신뢰를 지켜낸 점은 칭찬합니다. 하지만 애초에 빚을 지지 않도록 지출 규모를 조절하는 습관이 더 안전합니다.</div>`);
+      } else {
+        adviceList.push(`<div class="p-2 rounded-lg bg-emerald-100/70 border border-emerald-200 text-emerald-900"><strong>🛡️ 독립적인 자립심 칭찬:</strong> 3주 동안 단 한 번도 남에게 돈을 빌리지 않고 오직 스스로의 용돈만으로 당당하게 생활했습니다. 훌륭한 경제적 자립심입니다!</div>`);
+      }
+
+      if (gameState.bank >= 10000) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-emerald-100/70 border border-emerald-200 text-emerald-900"><strong>👑 저축왕 달성:</strong> 무려 ${gameState.bank.toLocaleString()}원을 모았습니다! '선저축'의 힘을 확실히 증명했습니다. 이 목돈은 미래에 더 의미 있는 목표를 이루는 든든한 밑거름이 될 것입니다.</div>`);
+      } else if (gameState.bank >= 5000) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-sky-100/70 border border-sky-200 text-sky-900"><strong>💰 안정적 저축 습관:</strong> 꾸준히 통장에 저축하여 ${gameState.bank.toLocaleString()}원을 모았습니다. 앞으로는 저축 비율을 조금 더 높여보는 것도 좋습니다.</div>`);
+      } else {
+        adviceList.push(`<div class="p-2 rounded-lg bg-amber-100/70 border border-amber-200 text-amber-900"><strong>💡 저축 습관 보완:</strong> 저축액이 다소 적었습니다. 용돈을 받자마자 최소 3,000원씩 먼저 떼어놓는 '선저축' 규칙을 더욱 단단히 지켜보세요.</div>`);
+      }
+
+      if (gameState.errors.unplannedSpend) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-amber-100/70 border border-amber-200 text-amber-900"><strong>• 계획 없는 탕진 주의:</strong> 월요일 초반 럭키박스에 큰돈을 쓴 것은 위험했습니다. 용돈을 받으면 요일별 하루 사용 한도를 정해두세요.</div>`);
+      }
+      if (gameState.errors.noPurpose) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-amber-100/70 border border-amber-200 text-amber-900"><strong>• 모방 소비 주의:</strong> 멀쩡한 필통이 있는데 친구 것을 따라 산 것은 충동적 소유욕입니다. '집에 이미 같은 물건이 있는가?'를 꼭 질문하세요.</div>`);
+      }
+      if (gameState.errors.lackInfo) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-amber-100/70 border border-amber-200 text-amber-900"><strong>• 정보 수집 필수:</strong> 인터넷 3,000원 거짓 특가에 덤터기를 썼습니다. 할인 문구에 속지 말고 주변 문구점과 비교하는 습관을 들이세요.</div>`);
+      }
+      if (gameState.errors.unfitChoice) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-amber-100/70 border border-amber-200 text-amber-900"><strong>• 목적에 맞는 선택:</strong> 물병처럼 들고 다닐 물건은 겉모습보다 가벼움과 튼튼함을 우선해야 후회가 없습니다.</div>`);
+      }
+      if (gameState.errors.unusedItem) {
+        adviceList.push(`<div class="p-2 rounded-lg bg-amber-100/70 border border-amber-200 text-amber-900"><strong>• 미사용 방치 방지:</strong> 비즈 키트를 사놓고 방치한 것은 돈을 버린 것과 같습니다. 끝까지 완성할 시간과 의지가 있을 때만 사세요.</div>`);
+      }
+
+      if (gameState.choiceStoryLogs['w2_5'] === 'parent_snack') {
+        adviceList.push(`<div class="p-2 rounded-lg bg-rose-100/70 border border-rose-200 text-rose-900"><strong>💖 따뜻한 효도 칭찬:</strong> 부모님께 깜짝 간식을 선물하여 가족 간의 사랑을 돈독히 한 것은 교과서가 가장 강조하는 아름다운 가치 소비입니다!</div>`);
+      }
+
+      adviceBox.innerHTML = adviceList.join("");
+
+      renderFullLedgerTable();
+    }
+
+    function restartFullProject() {
+      sndClick();
+      gameState = {
+        currentWeek: 1, stageIndexInWeek: 0, cash: 11000, bank: 0, debt: 0,
+        borrowCount: 0, repaidCount: 0, tempSelectedSave: 3000,
+        logic: 50, happy: 60, trust: 100, choiceStoryLogs: {},
+        errors: { unplannedSpend: false, noPurpose: false, lackInfo: false, unfitChoice: false, unusedItem: false },
+        weeklyStats: { 1: { spent: 0, saved: 0, errors: [] }, 2: { spent: 0, saved: 0, errors: [] }, 3: { spent: 0, saved: 0, errors: [] } }
+      };
+      fullLedger = [
+        { week: '1주차', date: '월요일', desc: '지난주 남은 돈', in: 1000, buy: 0, save: 0, give: 0, balance: 1000 },
+        { week: '1주차', date: '월요일', desc: '1주차 용돈 입금', in: 10000, buy: 0, save: 0, give: 0, balance: 11000 }
+      ];
+      updateHUD();
+      showWeekPlanView();
+    }
+
+    /* 5. [탭 3] 5대 낭비 소비 데이터 */
+    const wasteDataList = [
+      {
+        id: 0, cat: '오류 1: 목적 미고려', btnText: '1. 친구 따라사기', icon: 'fa-solid fa-pen-ruler',
+        title: '목적을 고려하지 않은 소비 (친구 따라사기)',
+        story: '내 필통 속에 멀쩡하고 좋은 필기구가 가득한데도, 단지 친구가 새로 산 반짝이 필통이 멋져 보여서 용돈으로 똑같이 사버렸습니다.',
+        reason: '물건이 나에게 왜 필요한지, 집에 이미 있지 않은지 생각하지 않고 오직 "남을 따라 하고 싶은 모방 심리"로 구매하여 이중 지출이 발생합니다.',
+        solution: '지갑을 열기 전 교과서 82쪽의 3대 질문을 던지세요: ① 집에 같은 물건이 이미 있지 않나? ② 이게 없으면 생활이 불편한가? ③ 단지 자랑하고 싶어서 사는 건 아닌가?',
+        quiz: {
+          q: '친구가 산 최신 캐릭터 학용품이 너무 갖고 싶을 때 가장 바람직한 행동은?',
+          opts: ['용돈을 전부 털어 바로 따라 산다.', '집에 쓸 수 있는 학용품이 있는지 먼저 확인하고 기존 것을 아껴 쓴다.', '부모님께 떼를 써서 사달라고 조른다.'],
+          ans: 1
+        }
+      },
+      {
+        id: 1, cat: '오류 2: 무계획 탕진', btnText: '2. 월요일 탕진', icon: 'fa-solid fa-calendar-xmark',
+        title: '계획을 세우지 않은 소비 (초반 탕진)',
+        story: '일주일 용돈 10,000원을 월요일에 받자마자 "돈 많다!"며 문구점과 편의점에서 과자와 장난감에 8,000원을 하루 만에 다 써버렸습니다.',
+        reason: '요일별 지출 한도와 필수 지출(준비물 등)을 고려하지 않아, 화요일부터 일요일까지 정작 필요한 준비물도 못 사고 곤란해집니다.',
+        solution: '교과서 83쪽처럼 용돈을 받자마자 [저축할 돈]을 먼저 통장에 넣고, 남은 돈을 요일별로 나누어 쓰는 습관을 기릅니다.',
+        quiz: {
+          q: '용돈을 받자마자 가장 먼저 해야 할 일은?',
+          opts: ['제일 비싼 간식부터 사 먹는다.', '일주일 동안 들어올 돈과 나갈 돈을 예상하고 저축액을 먼저 정한다.', '친구들에게 한턱낸다.'],
+          ans: 1
+        }
+      },
+      {
+        id: 2, cat: '오류 3: 정보 수집 부족', btnText: '3. 거짓 세일에 덜컥', icon: 'fa-solid fa-magnifying-glass-dollar',
+        title: '정보 수집이 부족한 소비 (비교 없는 구매)',
+        story: '인터넷 쇼핑몰에서 정가 5,000원짜리 장난감이 3,000원으로 깜짝 할인된다는 빨간색 배너를 보고 급하게 샀는데, 알고 보니 동네 문구점에서 2,000원에 팔고 있었습니다.',
+        reason: '상점들의 가격 비교나 실제 품질을 알아보지 않고 "세일", "마감 임박"이라는 광고 문구에 조급하게 넘어가 손해를 보았습니다.',
+        solution: '교과서 82쪽 3단계 실천: 물건을 사기 전에 온라인과 오프라인 매장의 가격을 최소 2곳 이상 비교하고, 사용해 본 친구들의 후기를 확인합니다.',
+        quiz: {
+          q: '인터넷에서 "파격 세일" 광고를 보았을 때 올바른 태도는?',
+          opts: ['품절되기 전에 1초 만에 결제한다.', '주변 문구점이나 다른 사이트 가격과 배송비를 꼼꼼히 비교해 본 후 결정한다.', '친구들에게 링크를 보내 충동구매를 부추긴다.'],
+          ans: 1
+        }
+      },
+      {
+        id: 3, cat: '오류 4: 목적 불일치 선택', btnText: '4. 겉만 번지르르', icon: 'fa-solid fa-bottle-water',
+        title: '목적에 맞지 않게 선택한 소비 (겉모습만 보고 구매)',
+        story: '학교 가방에 넣고 매일 등교할 "가볍고 튼튼한 물병"을 사는 것이 원래 목적이었는데, 매장에서 레이스가 달리고 예쁘다는 이유로 무겁고 잘 깨지는 도자기 물병을 샀습니다.',
+        reason: '물건의 본래 사용 목적과 실용성을 잊어버리고 오직 시각적인 화려함에만 홀려 실제 생활에서는 쓸모없는 애물단지를 구입했습니다.',
+        solution: '물건을 고를 때 "이 물건을 어디에, 어떻게 쓸 것인가?"라는 목적을 메모지에 적어두고, 가벼움, 내구성 등 기능적 기준을 우선 검토합니다.',
+        quiz: {
+          q: '체육 시간이나 등교할 때 쓸 물병을 고를 때 가장 중요한 기준은?',
+          opts: ['반짝거리는 보석 장식이 많은지', '가볍고 튼튼하며 새지 않고 가지고 다니기 편한지', '크기가 너무 커서 가방에 안 들어가는지'],
+          ans: 1
+        }
+      },
+      {
+        id: 4, cat: '오류 5: 구매 후 미사용', btnText: '5. 사놓고 방치', icon: 'fa-solid fa-box-archive',
+        title: '구매한 것을 사용하지 않는 소비 (방치와 쓰레기)',
+        story: '인기 유튜버가 가지고 노는 비즈 키트를 보고 신나서 샀지만, 집에 가져와서는 포장만 뜯어보고 귀찮다며 서랍 구석에 영원히 방치해 두었습니다.',
+        reason: '순간적인 호기심이나 소유욕으로 샀을 뿐 끝까지 책임지고 사용할 끈기와 계획이 없어 귀한 돈을 쓰레기로 바꾸어 버렸습니다.',
+        solution: '물건의 진정한 가치는 "사용"할 때 완성됩니다! 사기 전에 "내가 이걸 적어도 끝까지 완성할 시간과 의지가 있는가?"를 스스로에게 묻습니다.',
+        quiz: {
+          q: '만들기 장난감을 산 후 가장 올바른 소비자의 태도는?',
+          opts: ['포장만 뜯고 침대 밑에 넣어둔다.', '설명서를 보며 끝까지 정성껏 완성하고 아껴 쓴다.', '질렸으니 바로 쓰레기통에 버린다.'],
+          ans: 1
+        }
+      }
+    ];
+
+    let currentWasteIdx = 0;
+    function initWasteTabs() {
+      const container = document.getElementById('waste-tab-btns');
+      container.innerHTML = "";
+      wasteDataList.forEach((w, i) => {
+        const b = document.createElement('button');
+        b.id = `w-btn-${i}`;
+        b.className = (i === 0)
+          ? "py-2 px-2 rounded-xl font-jua text-xs bg-rose-600 text-white shadow text-center"
+          : "py-2 px-2 rounded-xl font-jua text-xs bg-white border border-rose-200 text-gray-600 hover:bg-rose-100 text-center";
+        b.innerText = w.btnText;
+        b.onclick = () => selectWasteTab(i);
+        container.appendChild(b);
+      });
+      renderWasteDetail();
+    }
+
+    function selectWasteTab(idx) {
+      sndClick();
+      currentWasteIdx = idx;
+      wasteDataList.forEach((_, i) => {
+        const b = document.getElementById(`w-btn-${i}`);
+        b.className = (i === idx)
+          ? "py-2 px-2 rounded-xl font-jua text-xs bg-rose-600 text-white shadow text-center"
+          : "py-2 px-2 rounded-xl font-jua text-xs bg-white border border-rose-200 text-gray-600 hover:bg-rose-100 text-center";
+      });
+      renderWasteDetail();
+    }
+
+    function renderWasteDetail() {
+      const w = wasteDataList[currentWasteIdx];
+      document.getElementById('waste-category-badge').innerText = w.cat;
+      document.getElementById('waste-title').innerText = w.title;
+      document.getElementById('waste-icon-box').innerHTML = `<i class="${w.icon}"></i>`;
+      document.getElementById('waste-story').innerText = w.story;
+      document.getElementById('waste-reason').innerText = w.reason;
+      document.getElementById('waste-solution').innerText = w.solution;
+
+      const qBox = document.getElementById('waste-quiz-box');
+      qBox.innerHTML = `<p class="text-xs font-bold text-gray-700 mb-2">${w.quiz.q}</p>`;
+      document.getElementById('waste-quiz-msg').innerText = "";
+
+      w.quiz.opts.forEach((opt, idx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-full text-left p-2.5 rounded-xl border border-gray-200 hover:border-emerald-400 hover:bg-emerald-50 text-xs text-gray-700 transition block font-sans";
+        btn.innerText = `${idx + 1}. ${opt}`;
+        btn.onclick = () => checkWasteQuiz(idx);
+        qBox.appendChild(btn);
+      });
+    }
+
+    function checkWasteQuiz(selIdx) {
+      const w = wasteDataList[currentWasteIdx];
+      const msg = document.getElementById('waste-quiz-msg');
+      if (selIdx === w.quiz.ans) {
+        sndCorrect();
+        msg.className = "mt-2 text-xs font-bold text-emerald-600 p-2 rounded-lg bg-emerald-50 border border-emerald-200";
+        msg.innerHTML = "🎉 정답입니다! 합리적인 소비자의 태도를 정확히 알고 계시네요!";
+        confetti({ particleCount: 60, spread: 50 });
+      } else {
+        sndWrong();
+        msg.className = "mt-2 text-xs font-bold text-rose-600 p-2 rounded-lg bg-rose-50 border border-rose-200";
+        msg.innerHTML = "🤔 다시 생각해 볼까요? 교과서 82쪽의 해결 비법을 다시 읽어보세요!";
+      }
+    }
+
+    /* 6. [탭 4] 가계부 렌더링 */
+    let currentLedgerFilter = 'all';
+
+    function filterLedger(flt) {
+      sndClick();
+      currentLedgerFilter = flt;
+      ['all', '1', '2', '3'].forEach(k => {
+        const btn = document.getElementById(`flt-${k}`);
+        if ((k === 'all' && flt === 'all') || (flt.includes(k) && k !== 'all')) {
+          btn.className = "px-2.5 py-1 rounded-lg bg-indigo-600 text-white";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-lg bg-gray-100 text-gray-600";
+        }
+      });
+      renderFullLedgerTable();
+    }
+
+    function renderFullLedgerTable() {
+      const tbody = document.getElementById('full-ledger-tbody');
+      tbody.innerHTML = "";
+
+      const list = (currentLedgerFilter === 'all')
+        ? fullLedger
+        : fullLedger.filter(r => r.week === currentLedgerFilter);
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-gray-400">해당 주차의 기록이 아직 없습니다.</td></tr>`;
+        return;
+      }
+
+      list.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-indigo-50/30 transition text-xs";
+        tr.innerHTML = `
+          <td class="border border-gray-200 font-bold text-gray-500">${r.week} ${r.date}</td>
+          <td class="border border-gray-200 text-left font-medium">${r.desc}</td>
+          <td class="border border-gray-200 text-emerald-600 font-bold">${r.in > 0 ? `+${r.in.toLocaleString()}원` : '-'}</td>
+          <td class="border border-gray-200 text-rose-600">${r.buy > 0 ? `-${r.buy.toLocaleString()}원` : '-'}</td>
+          <td class="border border-gray-200 text-indigo-600 font-semibold">${r.save > 0 ? `-${r.save.toLocaleString()}원` : '-'}</td>
+          <td class="border border-gray-200 text-purple-600">${r.give > 0 ? `-${r.give.toLocaleString()}원` : '-'}</td>
+          <td class="border border-gray-200 font-jua text-gray-800 bg-gray-50/50">${r.balance.toLocaleString()}원</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* 7. 공통 모달 */
+    function showModal(msg) {
+      document.getElementById('app-modal-msg').innerText = msg;
+      document.getElementById('app-modal').classList.remove('hidden');
+    }
+    function closeAppModal() {
+      sndClick();
+      document.getElementById('app-modal').classList.add('hidden');
+    }
+
+    /* 8. 초기화 */
+    window.addEventListener('DOMContentLoaded', () => {
+      selectStepGuide(0);
+      initWasteTabs();
+      updateHUD();
+      showWeekPlanView();
+      renderFullLedgerTable();
+    });
+  </script>
+</body>
+</html>
